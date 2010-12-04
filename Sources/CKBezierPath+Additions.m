@@ -5,8 +5,6 @@
 //  Created by Waqar Malik on 3/8/10.
 //  © Copyright 2008 Crimson Research, Inc. All rights reserved.
 //
-//  $Id: CKBezierPath+Additions.m 99 2010-06-25 21:00:49Z malik $
-//
 
 #import "CKBezierPath.h"
 #import "CKBezierPath+Additions.h"

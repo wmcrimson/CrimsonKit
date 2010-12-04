@@ -1,7 +1,5 @@
 /*
  *  © Copyright Crimson Research, Inc. 2008. All rights reserved.
- *
- *  $Id: CKPath.h 94 2010-06-24 21:45:06Z malik $
  */
 
 #ifndef __CKPATH_H__

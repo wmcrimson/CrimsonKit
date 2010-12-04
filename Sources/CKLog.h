@@ -1,7 +1,5 @@
 /*
  *  © Copyright Crimson Research, Inc. 2008. All rights reserved.
- *
- *  $Id: CKLog.h 104 2010-07-10 19:05:47Z malik $
  */
 
 #ifdef DEBUG

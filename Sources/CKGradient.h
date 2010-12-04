@@ -5,8 +5,6 @@
 //  Created by Waqar Malik on 2/7/10.
 //  © Copyright 2008 Crimson Research, Inc. All rights reserved.
 //
-//  $Id: CKGradient.h 115 2010-11-19 21:31:13Z malik $
-//
 
 @class CKBezierPath;
 

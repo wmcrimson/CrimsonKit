@@ -5,8 +5,6 @@
 //  Created by Waqar Malik on 2/7/10.
 //  © Copyright 2008 Crimson Research, Inc. All rights reserved.
 //
-//  $Id: CKGradient+Additions.m 92 2010-06-08 22:19:23Z malik $
-//
 
 #import "CKGradient+Additions.h"
 

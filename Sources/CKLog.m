@@ -1,7 +1,5 @@
 /*
  *  © Copyright Crimson Research, Inc. 2008. All rights reserved.
- *
- *  $Id: CKLog.m 92 2010-06-08 22:19:23Z malik $
  */
 
 #import "CKLog.h"

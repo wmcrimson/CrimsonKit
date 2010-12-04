@@ -1,7 +1,5 @@
 /*
  *  © Copyright Crimson Research, Inc. 2008. All rights reserved.
- *
- *  $Id: CKPath.c 94 2010-06-24 21:45:06Z malik $
  */
 
 #include "CKPath.h"
