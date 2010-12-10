@@ -8,6 +8,8 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include <math.h>
 
+#include "CKSourceAnnotations.h"
+
 #if !defined(DegreesToRadians)
 #define DegreesToRadians(x) (x * (CGFloat)M_PI / 180.0f)
 #endif
@@ -29,8 +31,8 @@ extern "C" {
         kCKPathAllCorners = (kCKPathTopLeftCorner | kCKPathTopRightCorner | kCKPathBottomLeftCorner | kCKPathBottomRightCorner)
     } CKPathCornerOptions;
     
-    void CKPathAddRoundedRect(CGMutablePathRef path, const CGAffineTransform *m, CGRect rect, CGFloat radius);
-	void CKPathAddRoundedRectWithCornerOptions(CGMutablePathRef path, const CGAffineTransform *m, CGRect rect, CGFloat radius, CKPathCornerOptions cornerOptions);
+    void CKPathAddRoundedRect(CGMutablePathRef path, const CGAffineTransform *m, CGRect rect, CGFloat radius) __attribute__((nonnull(1)));
+	void CKPathAddRoundedRectWithCornerOptions(CGMutablePathRef path, const CGAffineTransform *m, CGRect rect, CGFloat radius, CKPathCornerOptions cornerOptions) __attribute__((nonnull(1)));
     CGPathRef CKPathCreateRoundedRect(CGRect rect, const CGAffineTransform *m, CGFloat radius);
     CGPathRef CKPathCreateRountedRectWithCornerOptions(CGRect rect, const CGAffineTransform *m, CGFloat radius, CKPathCornerOptions cornerOptions);
    

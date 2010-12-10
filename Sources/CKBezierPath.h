@@ -6,6 +6,8 @@
 //  © Copyright 2008 Crimson Research, Inc. All rights reserved.
 //
 
+#import "CKSourceAnnotations.h"
+
 #if !defined(DegreesToRadians)
 #define DegreesToRadians(x) (x * (CGFloat)M_PI / 180.0f)
 #endif
@@ -36,57 +38,57 @@ typedef enum {
     CGFloat mDashPhase;
 }
 
-@property(nonatomic, readonly) CGRect bounds;
-@property(nonatomic, readonly) CGPoint currentPoint;
-@property(readonly, getter=isEmpty) BOOL empty;
-@property(nonatomic) CGPathRef CGPath;
+@property(nonatomic, readonly, assign) CGRect bounds;
+@property(nonatomic, readonly, assign) CGPoint currentPoint;
+@property(readonly, getter=isEmpty, assign) BOOL empty;
+@property(nonatomic, assign) CGPathRef CGPath;
 
-@property(nonatomic) CGFloat flatness; // (0.6)
-@property(nonatomic) CGLineCap lineCapStyle; // (kCGLineCapButt)
-@property(nonatomic) CGLineJoin lineJoinStyle; // (kCGLineJoinMiter)
-@property(nonatomic) CGFloat lineWidth; // (1.0)
-@property(nonatomic) CGFloat miterLimit; // (10)
-@property(nonatomic) BOOL usesEvenOddFillRule; //(NO)
+@property(nonatomic, assign) CGFloat flatness; // (0.6)
+@property(nonatomic, assign) CGLineCap lineCapStyle; // (kCGLineCapButt)
+@property(nonatomic, assign) CGLineJoin lineJoinStyle; // (kCGLineJoinMiter)
+@property(nonatomic, assign) CGFloat lineWidth; // (1.0)
+@property(nonatomic, assign) CGFloat miterLimit; // (10)
+@property(nonatomic, assign) BOOL usesEvenOddFillRule; //(NO)
 
     // Creating a CKBezierPath Object
-+ (CKBezierPath *)bezierPath;
-+ (CKBezierPath *)bezierPathWithRect:(CGRect)rect;
-+ (CKBezierPath *)bezierPathWithOvalInRect:(CGRect)rect;
-+ (CKBezierPath *)bezierPathWithRoundedRect:(CGRect)rect cornerRadius:(CGFloat)cornerRadius;
-+ (CKBezierPath *)bezierPathWithRoundedRect:(CGRect)rect byRoundingCorners:(CKRectCorner)corners cornerRadii:(CGSize)cornerRadii;
-+ (CKBezierPath *)bezierPathWithArcCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise;
-+ (CKBezierPath *)bezierPathWithCGPath:(CGPathRef)cgPath;
++ (CKBezierPath *)bezierPath NS_RETURNS_NOT_RETAINED;
++ (CKBezierPath *)bezierPathWithRect:(CGRect)rect NS_RETURNS_NOT_RETAINED;
++ (CKBezierPath *)bezierPathWithOvalInRect:(CGRect)rect NS_RETURNS_NOT_RETAINED;
++ (CKBezierPath *)bezierPathWithRoundedRect:(CGRect)rect cornerRadius:(CGFloat)cornerRadius NS_RETURNS_NOT_RETAINED;
++ (CKBezierPath *)bezierPathWithRoundedRect:(CGRect)rect byRoundingCorners:(CKRectCorner)corners cornerRadii:(CGSize)cornerRadii NS_RETURNS_NOT_RETAINED;
++ (CKBezierPath *)bezierPathWithArcCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise NS_RETURNS_NOT_RETAINED;
++ (CKBezierPath *)bezierPathWithCGPath:(CGPathRef)cgPath NS_RETURNS_NOT_RETAINED;
 
-- (void)appendBezierPathWithRect:(CGRect)rect;
-- (void)appendBezierPathWithOvalInRect:(CGRect)rect;
-- (void)appendBezierPathWithRoundedRect:(CGRect)rect byRoundingCorners:(CKRectCorner)corners cornerRadii:(CGSize)cornerRadii;
+- (void)appendBezierPathWithRect:(CGRect)rect CLANG_ANALYZER_NORETURN;
+- (void)appendBezierPathWithOvalInRect:(CGRect)rect CLANG_ANALYZER_NORETURN;
+- (void)appendBezierPathWithRoundedRect:(CGRect)rect byRoundingCorners:(CKRectCorner)corners cornerRadii:(CGSize)cornerRadii CLANG_ANALYZER_NORETURN;
 
     // Constructing a Path
-- (void)moveToPoint:(CGPoint)point;
-- (void)addLineToPoint:(CGPoint)point;
-- (void)addCurveToPoint:(CGPoint)endPoint controlPoint1:(CGPoint)controlPoint1 controlPoint2:(CGPoint)controlPoint2;
-- (void)addQuadCurveToPoint:(CGPoint)endPoint controlPoint:(CGPoint)controlPoint;
-- (void)addArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise;
-- (void)closePath;
-- (void)removeAllPoints;
-- (void)appendPath:(CKBezierPath *)bezierPath;
+- (void)moveToPoint:(CGPoint)point CLANG_ANALYZER_NORETURN;
+- (void)addLineToPoint:(CGPoint)point CLANG_ANALYZER_NORETURN;
+- (void)addCurveToPoint:(CGPoint)endPoint controlPoint1:(CGPoint)controlPoint1 controlPoint2:(CGPoint)controlPoint2 CLANG_ANALYZER_NORETURN;
+- (void)addQuadCurveToPoint:(CGPoint)endPoint controlPoint:(CGPoint)controlPoint CLANG_ANALYZER_NORETURN;
+- (void)addArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise CLANG_ANALYZER_NORETURN;
+- (void)closePath CLANG_ANALYZER_NORETURN;
+- (void)removeAllPoints CLANG_ANALYZER_NORETURN;
+- (void)appendPath:(CKBezierPath *)bezierPath CLANG_ANALYZER_NORETURN __attribute__((nonnull(1)));
 
     // Accessing Drawing Properties
-- (void)setLineDash:(const CGFloat *)pattern count:(NSInteger)count phase:(CGFloat)phase;
-- (void)getLineDash:(CGFloat *)pattern count:(NSInteger *)count phase:(CGFloat *)phase;
+- (void)setLineDash:(const CGFloat *)pattern count:(NSInteger)count phase:(CGFloat)phase CLANG_ANALYZER_NORETURN;
+- (void)getLineDash:(CGFloat *)pattern count:(NSInteger *)count phase:(CGFloat *)phase CLANG_ANALYZER_NORETURN;
 
     // Drawing Paths
-- (void)fill;
-- (void)fillWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha;
-- (void)stroke;
-- (void)strokeWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha;
+- (void)fill CLANG_ANALYZER_NORETURN;
+- (void)fillWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha CLANG_ANALYZER_NORETURN;
+- (void)stroke CLANG_ANALYZER_NORETURN;
+- (void)strokeWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha CLANG_ANALYZER_NORETURN;
 
     // Clipping Paths
-- (void)addClip;
+- (void)addClip CLANG_ANALYZER_NORETURN;
 
     // Hit Detection
 - (BOOL)containsPoint:(CGPoint)point;
 
     // Applying Tranformations
-- (void)applyTransform:(CGAffineTransform)transform;
+- (void)applyTransform:(CGAffineTransform)transform CLANG_ANALYZER_NORETURN;
 @end

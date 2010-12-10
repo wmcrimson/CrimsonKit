@@ -6,6 +6,8 @@
 //  © Copyright 2008 Crimson Research, Inc. All rights reserved.
 //
 
+#import "CKSourceAnnotations.h"
+
 @class CKBezierPath;
 
 @interface CKGradient : NSObject
@@ -24,30 +26,30 @@
 
 // Initialization
 
-- (id)initWithStartingColor:(UIColor *)startingColor endingColor:(UIColor *)endingColor;
-- (id)initWithColors:(NSArray *)colorArray;
+- (id)initWithStartingColor:(UIColor *)startingColor endingColor:(UIColor *)endingColor __attribute__((nonnull(1,2)));
+- (id)initWithColors:(NSArray *)colorArray __attribute__((nonnull(1)));
 
 // Color Location Color Location (MUST be nil terminated)
 
-- (id)initWithColorsAndLocations:(UIColor *)firstColor, ...;
-- (id)initWithColors:(NSArray *)colorArray atLocations:(const CGFloat *)locations colorSpace:(CGColorSpaceRef)colorSpace;
+- (id)initWithColorsAndLocations:(UIColor *)firstColor, ... __attribute__((nonnull(1)));
+- (id)initWithColors:(NSArray *)colorArray atLocations:(const CGFloat *)locations colorSpace:(CGColorSpaceRef)colorSpace __attribute__((nonnull(1,2)));
 
 // Primitive Drawing Methods
 
-- (void)drawFromPoint:(CGPoint)startingPoint toPoint:(CGPoint)endingPoint options:(CGGradientDrawingOptions)options;
-- (void)drawFromCenter:(CGPoint)startCenter radius:(CGFloat)startRadius toCenter:(CGPoint)endCenter radius:(CGFloat)endRadius options:(CGGradientDrawingOptions)options;
+- (void)drawFromPoint:(CGPoint)startingPoint toPoint:(CGPoint)endingPoint options:(CGGradientDrawingOptions)options CLANG_ANALYZER_NORETURN;
+- (void)drawFromCenter:(CGPoint)startCenter radius:(CGFloat)startRadius toCenter:(CGPoint)endCenter radius:(CGFloat)endRadius options:(CGGradientDrawingOptions)options CLANG_ANALYZER_NORETURN;
 
 // Drawing Linear Gradients
 
-- (void)drawInRect:(CGRect)rect angle:(CGFloat)angle;
-- (void)drawInBezierPath:(CKBezierPath *)path angle:(CGFloat)angle;
+- (void)drawInRect:(CGRect)rect angle:(CGFloat)angle CLANG_ANALYZER_NORETURN;
+- (void)drawInBezierPath:(CKBezierPath *)path angle:(CGFloat)angle CLANG_ANALYZER_NORETURN;
 
 // Drawing Radial Gradients
-- (void)drawInRect:(CGRect)rect relativeCenterPosition:(CGPoint)relativeCenterPosition;
-- (void)drawInBezierPath:(CKBezierPath *)path relativeCenterPosition:(CGPoint)relativeCenterPosition;
+- (void)drawInRect:(CGRect)rect relativeCenterPosition:(CGPoint)relativeCenterPosition CLANG_ANALYZER_NORETURN;
+- (void)drawInBezierPath:(CKBezierPath *)path relativeCenterPosition:(CGPoint)relativeCenterPosition CLANG_ANALYZER_NORETURN __attribute__((nonnull(1)));
 
-- (void)getColor:(UIColor **)color location:(CGFloat *)location atIndex:(NSInteger)colorIndex;
+- (void)getColor:(UIColor **)color location:(CGFloat *)location atIndex:(NSInteger)colorIndex CLANG_ANALYZER_NORETURN;
 
 // Assuming that color and locations are always increasing.
-- (UIColor *)interpolatedColorAtLocation:(CGFloat)location;
+- (UIColor *)interpolatedColorAtLocation:(CGFloat)location NS_RETURNS_NOT_RETAINED;
 @end

@@ -51,6 +51,7 @@
 		8412E6C512A9BBB50064F705 /* CKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKLog.m; path = ../Sources/CKLog.m; sourceTree = SOURCE_ROOT; };
 		8412E6C612A9BBB50064F705 /* CKPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CKPath.c; path = ../Sources/CKPath.c; sourceTree = SOURCE_ROOT; };
 		8412E6C712A9BBB50064F705 /* CKPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKPath.h; path = ../Sources/CKPath.h; sourceTree = SOURCE_ROOT; };
+		841BA1DB12B2EC6E00A1610D /* CKSourceAnnotations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKSourceAnnotations.h; path = ../Sources/CKSourceAnnotations.h; sourceTree = SOURCE_ROOT; };
 		8440E1B511D40B0A000B1C71 /* TestBezierPathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBezierPathView.h; sourceTree = "<group>"; };
 		8440E1B611D40B0A000B1C71 /* TestBezierPathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBezierPathView.m; sourceTree = "<group>"; };
 		8440E1B711D40B0A000B1C71 /* TestBezierPathViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBezierPathViewController.h; sourceTree = "<group>"; };
@@ -151,8 +152,9 @@
 				8412E6C312A9BBB50064F705 /* CKGradient+Additions.m */,
 				8412E6C412A9BBB50064F705 /* CKLog.h */,
 				8412E6C512A9BBB50064F705 /* CKLog.m */,
-				8412E6C612A9BBB50064F705 /* CKPath.c */,
 				8412E6C712A9BBB50064F705 /* CKPath.h */,
+				8412E6C612A9BBB50064F705 /* CKPath.c */,
+				841BA1DB12B2EC6E00A1610D /* CKSourceAnnotations.h */,
 			);
 			name = Kit;
 			sourceTree = "<group>";

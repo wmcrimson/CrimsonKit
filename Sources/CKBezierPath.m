@@ -24,7 +24,8 @@ NSString *const CKBezierPathPoint1Key = @"point1";
 NSString *const CKBezierPathPoint2Key = @"point2";
 
 @interface CKBezierPath (Private)
-- (void)_setDefaults;
+- (void)_setDefaults CLANG_ANALYZER_NORETURN;
+- (void)_appendCGPath:(CGPathRef)cgPath CLANG_ANALYZER_NORETURN __attribute__((nonnull(1)));
 @end
 
 typedef struct
@@ -272,7 +273,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 + (CKBezierPath *)bezierPathWithCGPath:(CGPathRef)cgPath
 {
     CKBezierPath *path = [[self class] new];
-    path.CGPath = cgPath;
+    [path _appendCGPath:cgPath];
     return [path autorelease];
 }
 
@@ -530,5 +531,11 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     mDashPattern = NULL;
     mDashCount = 0;
     mDashPhase = 0.0f;
+}
+
+- (void)_appendCGPath:(CGPathRef)cgPath
+{
+    assert(NULL != cgPath);
+    CGPathAddPath(mCGPath, &mTransform, cgPath);
 }
 @end

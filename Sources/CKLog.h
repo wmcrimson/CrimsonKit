@@ -2,8 +2,11 @@
  *  © Copyright Crimson Research, Inc. 2008. All rights reserved.
  */
 
+
+#import "CKSourceAnnotations.h"
+
 #ifdef DEBUG
-void _CKLog(uint32_t line, const char *function, NSString *format, ...);
+void _CKLog(uint32_t line, const char *function, NSString *format, ...) __attribute__((nonnull(2,3)));
 #endif
 
 #ifdef DEBUG
