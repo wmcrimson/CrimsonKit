@@ -301,6 +301,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 
 - (void)setCGPath:(CGPathRef)path
 {
+    assert(NULL != path && "Null Path");
     CGPathRelease(mCGPath);
     mCGPath = CGPathCreateMutableCopy(path);
 }
@@ -535,7 +536,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 
 - (void)_appendCGPath:(CGPathRef)cgPath
 {
-    assert(NULL != cgPath);
+    assert(NULL != cgPath && "NULL path");
     CGPathAddPath(mCGPath, &mTransform, cgPath);
 }
 @end
