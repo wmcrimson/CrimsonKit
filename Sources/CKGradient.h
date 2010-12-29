@@ -31,7 +31,7 @@
 
 // Color Location Color Location (MUST be nil terminated)
 
-- (id)initWithColorsAndLocations:(UIColor *)firstColor, ... __attribute__((nonnull(1)));
+- (id)initWithColorsAndLocations:(UIColor *)firstColor, ... NS_REQUIRES_NIL_TERMINATION __attribute__((nonnull(1)));
 - (id)initWithColors:(NSArray *)colorArray atLocations:(const CGFloat *)locations colorSpace:(CGColorSpaceRef)colorSpace __attribute__((nonnull(1,2)));
 
 // Primitive Drawing Methods
