@@ -10,15 +10,6 @@
 #import "CKBezierPath.h"
 
 @implementation TestBezierPathView
-
-- (id)initWithFrame:(CGRect)frame
-{
-    if ((self = [super initWithFrame:frame]))
-    {
-    }
-    return self;
-}
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
@@ -34,10 +25,4 @@
     [path fill];
     [path stroke];
 }
-
-- (void)dealloc {
-    [super dealloc];
-}
-
-
 @end
