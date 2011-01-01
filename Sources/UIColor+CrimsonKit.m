@@ -123,21 +123,7 @@
 
 - (NSUInteger)numberOfComponents
 {
-    NSUInteger numberOfComponents = NSNotFound;
-    
-    switch(self.colorSpaceModel)
-    {
-		case kCGColorSpaceModelMonochrome:
-			numberOfComponents = 2;
-            break;
-		case kCGColorSpaceModelRGB:
-            numberOfComponents = 4;
-            break;
-        default:
-            break;
-    }
-            
-    return numberOfComponents;
+    return CGColorGetNumberOfComponents(self.CGColor);
 }
 
 - (void)components:(CGFloat *)components
