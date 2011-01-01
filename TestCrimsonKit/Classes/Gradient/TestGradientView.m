@@ -9,6 +9,7 @@
 #import "TestGradientView.h"
 #import "CKGradient.h"
 #import "CKBezierPath.h"
+#import "UIColor+CrimsonKit.h"
 
 @implementation TestGradientView
 
@@ -26,12 +27,12 @@
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    CKGradient *gradient = [[CKGradient alloc] initWithStartingColor:[UIColor blueColor] endingColor:[UIColor yellowColor]];
+    CKGradient *gradient = [[CKGradient alloc] initWithStartingColor:[UIColor colorWithRGBAHex:0x0000ffff] endingColor:[UIColor yellowColor]];
     [gradient drawInRect:rect angle:45.0f];
     [gradient release];
     
     CKBezierPath *path = [CKBezierPath bezierPathWithRoundedRect:CGRectInset(rect, 10, 20) cornerRadius:30];
-    gradient = [[CKGradient alloc] initWithStartingColor:[UIColor greenColor] endingColor:[UIColor redColor]];
+    gradient = [[CKGradient alloc] initWithStartingColor:[UIColor colorWithRGBAHex:0x00ff00ff] endingColor:[UIColor redColor]];
     [gradient drawInBezierPath:path angle:0];
     [gradient release];
  
