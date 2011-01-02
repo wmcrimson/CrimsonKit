@@ -33,8 +33,8 @@
 
 + (UIColor *)colorWithRGBAString:(NSString *)colorString __attribute__((nonnull(1))) NS_RETURNS_NOT_RETAINED;
 + (UIColor *)colorWithRGBAHex:(uint32_t)colorValue NS_RETURNS_NOT_RETAINED;
-+ (void)red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue toHue:(CGFloat *)toHue saturation:(CGFloat *)toSaturation brightness:(CGFloat *)toBrightness;
-+ (void)hue:(CGFloat)hue saturation:(CGFloat)saturation brightness:(CGFloat)brightness toRed:(CGFloat *)toRed green:(CGFloat *)toGreen blue:(CGFloat *)toBlue;
++ (void)red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue toHue:(CGFloat *)toHue saturation:(CGFloat *)toSaturation brightness:(CGFloat *)toBrightness CLANG_ANALYZER_NORETURN;
++ (void)hue:(CGFloat)hue saturation:(CGFloat)saturation brightness:(CGFloat)brightness toRed:(CGFloat *)toRed green:(CGFloat *)toGreen blue:(CGFloat *)toBlue CLANG_ANALYZER_NORETURN;
 
 - (void)components:(CGFloat *)components CLANG_ANALYZER_NORETURN;
 - (BOOL)red:(CGFloat *)red green:(CGFloat *)green blue:(CGFloat *)blue alpha:(CGFloat *)alpha;

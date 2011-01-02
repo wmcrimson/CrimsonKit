@@ -117,9 +117,9 @@
 		
 		uint32_t i = (uint32_t)floorf(hue);
 		CGFloat  f = hue - i;
-		CGFloat  p = brightness * (1 - saturation);
-		CGFloat  q = brightness * (1 - (saturation * f));
-		CGFloat  t = brightness * (1 - (saturation * (1 - f)));
+		CGFloat  p = brightness * (1.0f - saturation);
+		CGFloat  q = brightness * (1.0f - (saturation * f));
+		CGFloat  t = brightness * (1.0f - (saturation * (1.0f - f)));
 		
 		switch(i)
         {
@@ -409,9 +409,9 @@
         y = 1.0f - b;
         k = MIN(c, MIN(m, y));
         
-        c = (c - k) / (1 - k);
-        m = (m - k) / (1 - k);
-        y = (y - k) / (1 - k);
+        c = (c - k) / (1.0f - k);
+        m = (m - k) / (1.0f - k);
+        y = (y - k) / (1.0f - k);
     }
     
     if(haveValues && cyan)
