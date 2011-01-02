@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-
-@interface TestGradientView : UIView {
+@interface TestGradientView : UIView
+{
 
 }
-
 @end

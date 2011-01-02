@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestGradientViewController : UIViewController {
+@interface TestGradientViewController : UIViewController
+{
 
 }
 

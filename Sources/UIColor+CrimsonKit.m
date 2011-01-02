@@ -17,6 +17,19 @@
 @dynamic RGBAHex;
 @dynamic RGBAString;
 
+@dynamic alpha;
+@dynamic black;
+@dynamic blue;
+@dynamic brightness;
+@dynamic cyan;
+@dynamic green;
+@dynamic hue;
+@dynamic magenta;
+@dynamic red;
+@dynamic saturation;
+@dynamic white;
+@dynamic yellow;
+
 + (UIColor *)colorWithRGBAString:(NSString *)colorString
 {
     NSString *tmp = [colorString stringByTrimmingCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
@@ -36,8 +49,190 @@
     return [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a/255.0f];
 }
 
++ (void)red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue toHue:(CGFloat *)toHue saturation:(CGFloat *)toSaturation brightness:(CGFloat *)toBrightness
+{
+	CGFloat h = 0.0f, s = 0.0f, b = 0.0f;
+
+	CGFloat max = MAX(red, MAX(green, blue));
+	CGFloat min = MIN(red, MIN(green, blue));
+	
+	b = max;
+	
+	s = (max != 0.0f) ? ((max - min) / max) : 0.0f;
+	
+	if(0.0f == s)
+    {
+		h = 0.0f;
+	} else {
+		CGFloat rc = (max - red) / (max - min);
+		CGFloat gc = (max - green) / (max - min);
+		CGFloat bc = (max - blue) / (max - min);
+		
+		if(red == max)
+        {
+            h = bc - gc;
+        } else if (green == max) {
+            h = 2 + rc - bc;
+        } else {
+            h = 4 + gc - rc;
+        }
+		
+		h *= 60.0f;
+		if(h < 0.0f)
+        {
+            h += 360.0f;
+        }
+	}
+	
+	if(toHue)
+    {
+        *toHue = h;
+    }
+    
+	if(toSaturation)
+    {
+        *toSaturation = s;
+    }
+    
+	if(toBrightness)
+    {
+        *toBrightness = b;
+    }
+}
+
++ (void)hue:(CGFloat)hue saturation:(CGFloat)saturation brightness:(CGFloat)brightness toRed:(CGFloat *)toRed green:(CGFloat *)toGreen blue:(CGFloat *)toBlue
+{
+	CGFloat r = 0.0f, g = 0.0f, b = 0.0f;
+
+	if(saturation == 0.0f)
+    {
+		r = g = b = brightness;
+	} else {
+		if(hue == 360.0f)
+        {
+            hue = 0.0f;
+        }
+        
+		hue /= 60.0f;
+		
+		uint32_t i = (uint32_t)floorf(hue);
+		CGFloat  f = hue - i;
+		CGFloat  p = brightness * (1 - saturation);
+		CGFloat  q = brightness * (1 - (saturation * f));
+		CGFloat  t = brightness * (1 - (saturation * (1 - f)));
+		
+		switch(i)
+        {
+			case 0:	r = brightness; g = t; b = p; break;
+			case 1:	r = q; g = brightness; b = p; break;
+			case 2:	r = p; g = brightness; b = t; break;
+			case 3:	r = p; g = q; b = brightness; break;
+			case 4:	r = t; g = p; b = brightness; break;
+			case 5:	r = brightness; g = p; b = q; break;
+            default: break;
+		}
+	}
+	
+	if(toRed)
+    {
+        *toRed = r;
+    }
+    
+	if(toGreen)
+    {
+        *toGreen = g;
+    }
+    
+	if(toBlue)
+    {
+        *toBlue = b;
+    }
+}
+
 #pragma mark -
 #pragma mark Properties
+- (CGFloat)alpha
+{
+    return CGColorGetAlpha(self.CGColor);
+}
+
+- (CGFloat)black
+{
+    CGFloat black = 0.0f;
+    [self cyan:NULL magenta:NULL yellow:NULL black:&black alpha:NULL];
+    return  black;    
+}
+
+- (CGFloat)blue
+{
+    CGFloat blue = 0.0f;
+    [self red:NULL green:NULL blue:&blue alpha:NULL];
+    return blue;
+}
+
+- (CGFloat)brightness
+{
+    CGFloat brightness = 0.0f;
+    [self hue:NULL saturation:NULL brightness:&brightness alpha:NULL];
+    return brightness;
+}
+
+- (CGFloat)cyan
+{
+    CGFloat cyan = 0.0f;
+    [self cyan:&cyan magenta:NULL yellow:NULL black:NULL alpha:NULL];
+    return cyan;    
+}
+
+- (CGFloat)green
+{
+    CGFloat green = 0.0f;
+    [self red:NULL green:&green blue:NULL alpha:NULL];
+    return green;
+}
+
+- (CGFloat)hue
+{
+    CGFloat hue = 0.0f;
+    [self hue:&hue saturation:NULL brightness:NULL alpha:NULL];
+    return hue;
+}
+
+- (CGFloat)magenta
+{
+    CGFloat magenta = 0.0f;
+    [self cyan:NULL magenta:&magenta yellow:NULL black:NULL alpha:NULL];
+    return magenta;    
+}
+
+- (CGFloat)red
+{
+    CGFloat red = 0.0f;
+    [self red:&red green:NULL blue:NULL alpha:NULL];
+    return red; 
+}
+
+- (CGFloat)saturation
+{
+    CGFloat saturation = 0.0f;
+    [self hue:NULL saturation:&saturation brightness:NULL alpha:NULL];
+    return saturation;
+}
+
+- (CGFloat)white
+{
+    CGFloat white = 0.0f;
+    [self white:&white alpha:NULL];
+    return white;
+}
+
+- (CGFloat)yellow
+{
+    CGFloat yellow = 0.0f;
+    [self cyan:NULL magenta:NULL yellow:&yellow black:NULL alpha:NULL];
+    return  yellow;
+}
+
 - (BOOL)canProvideRGBAComponents
 {
     BOOL canProvide = NO;
@@ -134,6 +329,7 @@
 
 - (BOOL)red:(CGFloat *)red green:(CGFloat *)green blue:(CGFloat *)blue alpha:(CGFloat *)alpha
 {
+    assert(self.canProvideRGBAComponents && "Color space not supported.");
     BOOL haveValues = NO;
 	const CGFloat *components = CGColorGetComponents(self.CGColor);
 	
@@ -175,6 +371,83 @@
     {
         *alpha = a;
     }
+    
+    return haveValues;
+}
+
+- (BOOL)white:(CGFloat *)white alpha:(CGFloat *)alpha
+{
+    BOOL haveValues = NO;
+    assert(kCGColorSpaceModelMonochrome == self.colorSpaceModel && "Invalid Color");
+    const CGFloat *components = CGColorGetComponents(self.CGColor);
+    haveValues = NULL != components;
+    if(haveValues && white)
+    {
+        *white = components[0];
+    }
+    
+    if(haveValues && alpha)
+    {
+        *alpha = components[1];
+    }
+    
+    return haveValues;
+}
+
+- (BOOL)cyan:(CGFloat *)cyan magenta:(CGFloat *)magenta yellow:(CGFloat *)yellow black:(CGFloat *)black alpha:(CGFloat *)alpha
+{
+    assert(self.canProvideRGBAComponents && "Invalid Color");
+    CGFloat r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
+    BOOL haveValues = [self red:&r green:&g blue:&b alpha:&a];
+    CGFloat c = 0.0f, m = 0.0f, y = 0.0f, k = 0.0f;
+    if(0.0f == r && 0.0f == g && 0.0f == b)
+    {
+        k = 1;
+    } else {
+        c = 1.0f - r;
+        m = 1.0f - g;
+        y = 1.0f - b;
+        k = MIN(c, MIN(m, y));
+        
+        c = (c - k) / (1 - k);
+        m = (m - k) / (1 - k);
+        y = (y - k) / (1 - k);
+    }
+    
+    if(haveValues && cyan)
+    {
+        *cyan = c;
+    }
+    
+    if(haveValues && magenta)
+    {
+        *magenta = m;
+    }
+    
+    if(haveValues && yellow)
+    {
+        *yellow = y;
+    }
+    
+    if(haveValues && black)
+    {
+        *black = k;
+    }
+    
+    if(haveValues && alpha)
+    {
+        *alpha = a;
+    }
+    
+    return haveValues;
+}
+
+- (BOOL)hue:(CGFloat *)hue saturation:(CGFloat *)saturation brightness:(CGFloat *)brightness alpha:(CGFloat *)alpha
+{
+    assert(self.canProvideRGBAComponents && "Invalid Color");
+    CGFloat r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
+    BOOL haveValues = [self red:&r green:&g blue:&b alpha:&a];
+    [UIColor red:r green:g blue:b toHue:hue saturation:saturation brightness:brightness];
     
     return haveValues;
 }

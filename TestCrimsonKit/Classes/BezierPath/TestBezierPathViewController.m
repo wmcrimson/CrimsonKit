@@ -8,14 +8,13 @@
 
 #import "TestBezierPathViewController.h"
 #import "UIColor+CrimsonKit.h"
+#import "CKLog.h"
 
 @implementation TestBezierPathViewController
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor lightGrayColor];
-    NSLog(@"Blue Color hex string = %@", [UIColor blueColor].RGBAString);
+    CKLog(@"Blue Color hex string = %@", [UIColor blueColor].RGBAString);
 }
 @end

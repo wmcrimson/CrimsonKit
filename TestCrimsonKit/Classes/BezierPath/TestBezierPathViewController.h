@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestBezierPathViewController : UIViewController {
+@interface TestBezierPathViewController : UIViewController
+{
 
 }
 

@@ -18,9 +18,27 @@
 @property (nonatomic, readonly, assign) uint32_t RGBAHex;
 @property (nonatomic, readonly, assign) NSString *RGBAString;
 
-+ (UIColor *)colorWithRGBAString:(NSString *)colorString NS_RETURNS_NOT_RETAINED;
-+ (UIColor *)colorWithRGBAHex:(uint32_t)colorValue NS_RETURNS_NOT_RETAINED;
+@property (nonatomic, readonly, assign) CGFloat alpha;
+@property (nonatomic, readonly, assign) CGFloat black;
+@property (nonatomic, readonly, assign) CGFloat blue;
+@property (nonatomic, readonly, assign) CGFloat brightness;
+@property (nonatomic, readonly, assign) CGFloat cyan;
+@property (nonatomic, readonly, assign) CGFloat green;
+@property (nonatomic, readonly, assign) CGFloat hue;
+@property (nonatomic, readonly, assign) CGFloat magenta;
+@property (nonatomic, readonly, assign) CGFloat red;
+@property (nonatomic, readonly, assign) CGFloat saturation;
+@property (nonatomic, readonly, assign) CGFloat white;
+@property (nonatomic, readonly, assign) CGFloat yellow;
 
-- (void)components:(CGFloat *)components;
++ (UIColor *)colorWithRGBAString:(NSString *)colorString __attribute__((nonnull(1))) NS_RETURNS_NOT_RETAINED;
++ (UIColor *)colorWithRGBAHex:(uint32_t)colorValue NS_RETURNS_NOT_RETAINED;
++ (void)red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue toHue:(CGFloat *)toHue saturation:(CGFloat *)toSaturation brightness:(CGFloat *)toBrightness;
++ (void)hue:(CGFloat)hue saturation:(CGFloat)saturation brightness:(CGFloat)brightness toRed:(CGFloat *)toRed green:(CGFloat *)toGreen blue:(CGFloat *)toBlue;
+
+- (void)components:(CGFloat *)components CLANG_ANALYZER_NORETURN;
 - (BOOL)red:(CGFloat *)red green:(CGFloat *)green blue:(CGFloat *)blue alpha:(CGFloat *)alpha;
+- (BOOL)white:(CGFloat *)white alpha:(CGFloat *)alpha;
+- (BOOL)cyan:(CGFloat *)cyan magenta:(CGFloat *)magenta yellow:(CGFloat *)yellow black:(CGFloat *)black alpha:(CGFloat *)alpha;
+- (BOOL)hue:(CGFloat *)hue saturation:(CGFloat *)saturation brightness:(CGFloat *)brightness alpha:(CGFloat *)alpha;
 @end
