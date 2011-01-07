@@ -37,7 +37,7 @@ extern "C" {
     CGPathRef CKPathCreateRountedRectWithCornerOptions(CGRect rect, const CGAffineTransform *m, CGFloat radius, CKPathCornerOptions cornerOptions);
    
 #ifdef __cplusplus
-};
+}
 #endif
 
-#endif //__CKPATH_H__
+#endif /* __CKPATH_H__ */

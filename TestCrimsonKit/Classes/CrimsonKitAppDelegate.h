@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CrimsonKitAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface CrimsonKitAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate>
+{
     UIWindow *window;
     UITabBarController *tabBarController;
 }

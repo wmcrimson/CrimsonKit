@@ -26,6 +26,7 @@
 		8440E1BA11D40B0A000B1C71 /* TestBezierPathViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8440E1B811D40B0A000B1C71 /* TestBezierPathViewController.m */; };
 		8440E1F611D40C67000B1C71 /* TestGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8440E1F311D40C67000B1C71 /* TestGradientView.m */; };
 		8440E1F711D40C67000B1C71 /* TestGradientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8440E1F511D40C67000B1C71 /* TestGradientViewController.m */; };
+		84E6AC1712D7A35600209481 /* ColorConversion.c in Sources */ = {isa = PBXBuildFile; fileRef = 84E6AC1612D7A35600209481 /* ColorConversion.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		8440E1F311D40C67000B1C71 /* TestGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestGradientView.m; sourceTree = "<group>"; };
 		8440E1F411D40C67000B1C71 /* TestGradientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestGradientViewController.h; sourceTree = "<group>"; };
 		8440E1F511D40C67000B1C71 /* TestGradientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestGradientViewController.m; sourceTree = "<group>"; };
+		84E6AC1512D7A35600209481 /* ColorConversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorConversion.h; path = ../Sources/ColorConversion.h; sourceTree = SOURCE_ROOT; };
+		84E6AC1612D7A35600209481 /* ColorConversion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ColorConversion.c; path = ../Sources/ColorConversion.c; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* CrimsonKit-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CrimsonKit-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +149,12 @@
 			isa = PBXGroup;
 			children = (
 				841BA1DB12B2EC6E00A1610D /* CKSourceAnnotations.h */,
+				8412E6C412A9BBB50064F705 /* CKLog.h */,
+				8412E6C512A9BBB50064F705 /* CKLog.m */,
+				8412E6C712A9BBB50064F705 /* CKPath.h */,
+				8412E6C612A9BBB50064F705 /* CKPath.c */,
+				84E6AC1512D7A35600209481 /* ColorConversion.h */,
+				84E6AC1612D7A35600209481 /* ColorConversion.c */,
 				8412E6BC12A9BBB50064F705 /* CKBezierPath.h */,
 				8412E6BD12A9BBB50064F705 /* CKBezierPath.m */,
 				8412E6BE12A9BBB50064F705 /* CKBezierPath+Additions.h */,
@@ -154,10 +163,6 @@
 				8412E6C112A9BBB50064F705 /* CKGradient.m */,
 				8412E6C212A9BBB50064F705 /* CKGradient+Additions.h */,
 				8412E6C312A9BBB50064F705 /* CKGradient+Additions.m */,
-				8412E6C412A9BBB50064F705 /* CKLog.h */,
-				8412E6C512A9BBB50064F705 /* CKLog.m */,
-				8412E6C712A9BBB50064F705 /* CKPath.h */,
-				8412E6C612A9BBB50064F705 /* CKPath.c */,
 				8405013212CEF839000D96BB /* UIColor+CrimsonKit.h */,
 				8405013312CEF839000D96BB /* UIColor+CrimsonKit.m */,
 			);
@@ -261,6 +266,7 @@
 				8412E6CC12A9BBB50064F705 /* CKLog.m in Sources */,
 				8412E6CD12A9BBB50064F705 /* CKPath.c in Sources */,
 				8405013412CEF839000D96BB /* UIColor+CrimsonKit.m in Sources */,
+				84E6AC1712D7A35600209481 /* ColorConversion.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

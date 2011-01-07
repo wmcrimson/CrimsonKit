@@ -6,6 +6,7 @@
 //  Copyright 2010 Crimson Research, Inc. All rights reserved.
 //
 
+#import "ColorConversion.h"
 #import "UIColor+CrimsonKit.h"
 
 @implementation UIColor (CrimsonKit)
@@ -32,6 +33,7 @@
 
 + (UIColor *)colorWithRGBAString:(NSString *)colorString
 {
+    assert(nil != colorString && "cannot create colors for null string");
     NSString *tmp = [colorString stringByTrimmingCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
     NSScanner *scanner = [NSScanner scannerWithString:tmp];
     uint32_t colorValue = 0;
@@ -51,101 +53,19 @@
 
 + (void)red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue toHue:(CGFloat *)toHue saturation:(CGFloat *)toSaturation brightness:(CGFloat *)toBrightness
 {
-	CGFloat h = 0.0f, s = 0.0f, b = 0.0f;
-
-	CGFloat max = MAX(red, MAX(green, blue));
-	CGFloat min = MIN(red, MIN(green, blue));
-	
-	b = max;
-	
-	s = (max != 0.0f) ? ((max - min) / max) : 0.0f;
-	
-	if(0.0f == s)
+        // if all the return pointers are NULL we don't need to do any math just return
+    if(!(NULL == toHue && NULL == toSaturation && NULL == toBrightness))
     {
-		h = 0.0f;
-	} else {
-		CGFloat rc = (max - red) / (max - min);
-		CGFloat gc = (max - green) / (max - min);
-		CGFloat bc = (max - blue) / (max - min);
-		
-		if(red == max)
-        {
-            h = bc - gc;
-        } else if (green == max) {
-            h = 2 + rc - bc;
-        } else {
-            h = 4 + gc - rc;
-        }
-		
-		h *= 60.0f;
-		if(h < 0.0f)
-        {
-            h += 360.0f;
-        }
-	}
-	
-	if(toHue)
-    {
-        *toHue = h;
-    }
-    
-	if(toSaturation)
-    {
-        *toSaturation = s;
-    }
-    
-	if(toBrightness)
-    {
-        *toBrightness = b;
+        RGBtoHSB(red, green, blue, toHue, toSaturation, toBrightness);
     }
 }
 
 + (void)hue:(CGFloat)hue saturation:(CGFloat)saturation brightness:(CGFloat)brightness toRed:(CGFloat *)toRed green:(CGFloat *)toGreen blue:(CGFloat *)toBlue
 {
-	CGFloat r = 0.0f, g = 0.0f, b = 0.0f;
-
-	if(saturation == 0.0f)
+        // if all the return pointers are NULL we don't need to do any math just return
+    if(!(NULL == toRed && NULL == toGreen && NULL == toBlue))
     {
-		r = g = b = brightness;
-	} else {
-		if(hue == 360.0f)
-        {
-            hue = 0.0f;
-        }
-        
-		hue /= 60.0f;
-		
-		uint32_t i = (uint32_t)floorf(hue);
-		CGFloat  f = hue - i;
-		CGFloat  p = brightness * (1.0f - saturation);
-		CGFloat  q = brightness * (1.0f - (saturation * f));
-		CGFloat  t = brightness * (1.0f - (saturation * (1.0f - f)));
-		
-		switch(i)
-        {
-			case 0:	r = brightness; g = t; b = p; break;
-			case 1:	r = q; g = brightness; b = p; break;
-			case 2:	r = p; g = brightness; b = t; break;
-			case 3:	r = p; g = q; b = brightness; break;
-			case 4:	r = t; g = p; b = brightness; break;
-			case 5:	r = brightness; g = p; b = q; break;
-            default: break;
-		}
-	}
-	
-	if(toRed)
-    {
-        *toRed = r;
-    }
-    
-	if(toGreen)
-    {
-        *toGreen = g;
-    }
-    
-	if(toBlue)
-    {
-        *toBlue = b;
+        HSBtoRGB(hue, saturation, brightness, toRed, toGreen, toBlue);
     }
 }
 
@@ -257,7 +177,7 @@
 
 - (NSString *)colorSpaceName
 {
-    NSString *name = @"Unsuported Colorspace";
+    NSString *name = @"Unsupported Colorspace";
     
 	switch (self.colorSpaceModel)
     {
