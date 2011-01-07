@@ -25,7 +25,7 @@ NSString *const CKBezierPathPoint2Key = @"point2";
 
 @interface CKBezierPath (Private)
 - (void)_setDefaults CLANG_ANALYZER_NORETURN;
-- (void)_appendCGPath:(CGPathRef)cgPath CLANG_ANALYZER_NORETURN __attribute__((nonnull(1)));
+- (void)_appendCGPath:(CGPathRef)cgPath CLANG_ANALYZER_NORETURN;
 @end
 
 typedef struct

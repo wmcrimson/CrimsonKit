@@ -18,7 +18,7 @@
 - (void)addRelativeCurveToPoint:(CGPoint)point controlPoint1:(CGPoint)cp1 controlPoint2:(CGPoint)cp2 CLANG_ANALYZER_NORETURN;
 - (void)appendCGPath:(CGPathRef)cgPath CLANG_ANALYZER_NORETURN;
 
-- (void)appendBezierPath:(CKBezierPath *)path CLANG_ANALYZER_NORETURN  __attribute__((nonnull(1)));
+- (void)appendBezierPath:(CKBezierPath *)path CLANG_ANALYZER_NORETURN;
 - (void)appendBezierPathWithArcFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint radius:(CGFloat)radius CLANG_ANALYZER_NORETURN;
 - (void)appendBezierPathWithArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle CLANG_ANALYZER_NORETURN;
 - (void)appendBezierPathWithPoints:(CGPoint *)points count:(NSInteger)count CLANG_ANALYZER_NORETURN;

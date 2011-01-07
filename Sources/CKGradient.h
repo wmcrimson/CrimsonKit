@@ -26,13 +26,13 @@
 
 // Initialization
 
-- (id)initWithStartingColor:(UIColor *)startingColor endingColor:(UIColor *)endingColor __attribute__((nonnull(1,2)));
-- (id)initWithColors:(NSArray *)colorArray __attribute__((nonnull(1)));
+- (id)initWithStartingColor:(UIColor *)startingColor endingColor:(UIColor *)endingColor;
+- (id)initWithColors:(NSArray *)colorArray;
 
 // Color Location Color Location (MUST be nil terminated)
 
-- (id)initWithColorsAndLocations:(UIColor *)firstColor, ... NS_REQUIRES_NIL_TERMINATION __attribute__((nonnull(1)));
-- (id)initWithColors:(NSArray *)colorArray atLocations:(const CGFloat *)locations colorSpace:(CGColorSpaceRef)colorSpace __attribute__((nonnull(1,2)));
+- (id)initWithColorsAndLocations:(UIColor *)firstColor, ... NS_REQUIRES_NIL_TERMINATION;
+- (id)initWithColors:(NSArray *)colorArray atLocations:(const CGFloat *)locations colorSpace:(CGColorSpaceRef)colorSpace;
 
 // Primitive Drawing Methods
 
@@ -46,7 +46,7 @@
 
 // Drawing Radial Gradients
 - (void)drawInRect:(CGRect)rect relativeCenterPosition:(CGPoint)relativeCenterPosition CLANG_ANALYZER_NORETURN;
-- (void)drawInBezierPath:(CKBezierPath *)path relativeCenterPosition:(CGPoint)relativeCenterPosition CLANG_ANALYZER_NORETURN __attribute__((nonnull(1)));
+- (void)drawInBezierPath:(CKBezierPath *)path relativeCenterPosition:(CGPoint)relativeCenterPosition CLANG_ANALYZER_NORETURN;
 
 - (void)getColor:(UIColor **)color location:(CGFloat *)location atIndex:(NSInteger)colorIndex CLANG_ANALYZER_NORETURN;
 

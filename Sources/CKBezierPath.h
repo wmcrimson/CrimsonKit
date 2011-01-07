@@ -71,7 +71,7 @@ typedef enum {
 - (void)addArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise CLANG_ANALYZER_NORETURN;
 - (void)closePath CLANG_ANALYZER_NORETURN;
 - (void)removeAllPoints CLANG_ANALYZER_NORETURN;
-- (void)appendPath:(CKBezierPath *)bezierPath CLANG_ANALYZER_NORETURN __attribute__((nonnull(1)));
+- (void)appendPath:(CKBezierPath *)bezierPath CLANG_ANALYZER_NORETURN;
 
     // Accessing Drawing Properties
 - (void)setLineDash:(const CGFloat *)pattern count:(NSInteger)count phase:(CGFloat)phase CLANG_ANALYZER_NORETURN;
