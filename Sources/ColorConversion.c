@@ -10,14 +10,6 @@
 #include <stdint.h>
 #include "ColorConversion.h"
 
-#ifndef MAX
-#define MAX(a,b)	(((a) > (b)) ? (a) : (b))
-#endif
-
-#ifndef MIN
-#define MIN(a,b)	(((a) < (b)) ? (a) : (b))
-#endif
-
 void RGBtoHSB(float_t red, float_t green, float_t blue, float_t *toHue, float_t *toSaturation, float_t *toBrightness)
 {
 	float_t h = 0.0f, s = 0.0f, b = 0.0f;

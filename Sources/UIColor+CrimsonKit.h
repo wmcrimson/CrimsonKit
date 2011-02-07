@@ -9,14 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CKSourceAnnotations.h"
 
-#ifndef MIN
-#define MIN(x,y) ((x)<(y)?(x):(y))
-#endif
-
-#ifndef MAX
-#define MAX(x,y) ((x)>(y)?(x):(y))
-#endif
-
 @interface UIColor (CrimsonKit)
 @property (nonatomic, readonly, assign) BOOL canProvideRGBAComponents;
 @property (nonatomic, readonly, assign) CGColorSpaceRef colorSpace;

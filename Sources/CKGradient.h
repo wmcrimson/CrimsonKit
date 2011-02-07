@@ -8,7 +8,7 @@
 
 #import "CKSourceAnnotations.h"
 
-#if MAC_OS_X
+#if __MAC_OS_X_VERSION_MIN_REQUIRED
 #define UIColor NSColor
 #endif
 
