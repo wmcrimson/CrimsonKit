@@ -16,6 +16,14 @@
 #define RadiansToDegrees(x) (x * 180.0f / (CGFloat)M_PI)
 #endif
 
+#if MAC_OS_X
+#define CKGraphicsGetCurrentContext() [[NSGraphicsContext currentContext] graphicsPort]
+#define NSStringFromCGPoint(p) [NSString stringWithFormat:@"{%f, %f}", p.x, p.y]
+extern CGPoint CGPointFromString(NSString *encodedString) __attribute__((nonnull(1)));
+#else
+#define CKGraphicsGetCurrentContext() UIGraphicsGetCurrentContext()
+#endif
+
 typedef enum {
     CKRectCornerTopLeft     = 1 << 0,
     CKRectCornerTopRight    = 1 << 1,
@@ -28,7 +36,9 @@ typedef enum {
 {
 @private
     CGMutablePathRef mCGPath;
-    CGFloat mFlatness, mLineWidth, mMiterLimit;
+    CGFloat mFlatness;
+    CGFloat mLineWidth;
+    CGFloat mMiterLimit;
     CGLineCap mLineCapStyle;
     CGLineJoin mLineJoinStyle;
     BOOL mUsesEvenOddFillRule;

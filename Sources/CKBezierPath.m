@@ -23,6 +23,17 @@ NSString *const CKBezierPathPoint0Key = @"point0";
 NSString *const CKBezierPathPoint1Key = @"point1";
 NSString *const CKBezierPathPoint2Key = @"point2";
 
+#if defined(MAC_OS_X)
+CGPoint CGPointFromString(NSString *encodedString)
+{
+    CGPoint point = CGPointZero;
+    char left, comma, right;
+    sscanf([encodedString UTF8String], "%c%f%c %f%c", &left, &point.x, &comma, &point.y, &right);
+    
+    return point;
+}
+#endif
+
 @interface CKBezierPath (Private)
 - (void)_setDefaults CLANG_ANALYZER_NORETURN;
 - (void)_appendCGPath:(CGPathRef)cgPath CLANG_ANALYZER_NORETURN;
@@ -83,9 +94,18 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 }
 
 @implementation CKBezierPath
-@dynamic bounds, currentPoint, empty, CGPath;
-@synthesize flatness = mFlatness, lineWidth = mLineWidth, miterLimit = mMiterLimit;
-@synthesize lineCapStyle = mLineCapStyle, lineJoinStyle = mLineJoinStyle, usesEvenOddFillRule = mUsesEvenOddFillRule;
+
+@dynamic bounds;
+@dynamic currentPoint;
+@dynamic empty;
+@dynamic CGPath;
+
+@synthesize flatness = mFlatness;
+@synthesize lineWidth = mLineWidth;
+@synthesize miterLimit = mMiterLimit;
+@synthesize lineCapStyle = mLineCapStyle;
+@synthesize lineJoinStyle = mLineJoinStyle;
+@synthesize usesEvenOddFillRule = mUsesEvenOddFillRule;
 
 #pragma mark -
 #pragma mark Object LifeCycle
@@ -197,7 +217,8 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
         [coder encodeFloat:mDashPhase forKey:CKBezierPathDashPhaseKey];
         
         NSMutableArray *values = [NSMutableArray arrayWithCapacity:(NSUInteger)mDashCount];
-        for(NSInteger i = 0; i < mDashCount; i++)
+        NSUInteger i = 0;
+        for(i = 0; i < mDashCount; i++)
         {
             [values addObject:[NSNumber numberWithFloat:mDashPattern[i]]];
         }
@@ -436,7 +457,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     mDashPhase = phase;
     mDashPattern = NSZoneMalloc(NULL, (size_t)mDashCount * sizeof(CGFloat));
     memcpy(mDashPattern, pattern, sizeof(CGFloat) * (size_t)mDashCount);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextSetLineDash(context, mDashPhase, mDashPattern, (size_t)mDashCount);
 }
 
@@ -451,14 +472,14 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     // Drawing Paths
 - (void)fill
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextAddPath(context, mCGPath);
     CGContextDrawPath(context, mUsesEvenOddFillRule ? kCGPathEOFill : kCGPathFill);
 }
 
 - (void)fillWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextSetBlendMode(context, blendMode);
     CGContextSetAlpha(context, alpha);
     CGContextAddPath(context, mCGPath);
@@ -467,7 +488,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 
 - (void)stroke
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextSetLineWidth(context, self.lineWidth);
     CGContextSetMiterLimit(context, self.miterLimit);
@@ -481,7 +502,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 
 - (void)strokeWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextSetLineWidth(context, self.lineWidth);
     CGContextSetMiterLimit(context, self.miterLimit);
@@ -498,7 +519,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     // Clipping Paths
 - (void)addClip
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextAddPath(context, mCGPath);
     mUsesEvenOddFillRule ? CGContextEOClip(context) : CGContextClip(context);
 }

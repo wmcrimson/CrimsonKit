@@ -93,19 +93,19 @@
 
 + (void)fillRect:(CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextFillRect(context, rect);
 }
 
 + (void)strokeRect:(CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextStrokeRect(context, rect);
 }
 
 + (void)strokeLineFromPoint:(CGPoint)point1 toPoint:(CGPoint)point2
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextMoveToPoint(context, point1.x, point1.y);
     CGContextAddLineToPoint(context, point2.x, point2.x);
     CGContextDrawPath(context, kCGPathStroke);
@@ -113,7 +113,7 @@
 
 + (void)clipRect:(CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextAddRect(context, rect);
     CGContextClip(context);
 }

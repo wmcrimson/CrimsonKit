@@ -9,6 +9,8 @@
 #ifndef __CKSOURCEANNOTATIONS_H__
 #define __CKSOURCEANNOTATIONS_H__
 
+#define MAC_OS_X 0
+
 /* __attribute__((nonnull(1,3))) */
 /* Compatibility with non-clang compilers. */
 #ifndef __has_feature

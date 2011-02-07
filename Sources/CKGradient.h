@@ -8,6 +8,10 @@
 
 #import "CKSourceAnnotations.h"
 
+#if MAC_OS_X
+#define UIColor NSColor
+#endif
+
 @class CKBezierPath;
 
 @interface CKGradient : NSObject

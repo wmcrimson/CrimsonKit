@@ -364,6 +364,7 @@
 
 - (BOOL)hue:(CGFloat *)hue saturation:(CGFloat *)saturation brightness:(CGFloat *)brightness alpha:(CGFloat *)alpha
 {
+#pragma unused (alpha)
     assert(self.canProvideRGBAComponents && "Invalid Color");
     CGFloat r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
     BOOL haveValues = [self red:&r green:&g blue:&b alpha:&a];
