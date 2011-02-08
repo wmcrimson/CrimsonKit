@@ -6,6 +6,8 @@
 //  Copyright 2010 Crimson Research, Inc. All rights reserved.
 //
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
+
 #import <UIKit/UIKit.h>
 #import "CKSourceAnnotations.h"
 
@@ -42,3 +44,5 @@
 - (BOOL)cyan:(CGFloat *)cyan magenta:(CGFloat *)magenta yellow:(CGFloat *)yellow black:(CGFloat *)black alpha:(CGFloat *)alpha;
 - (BOOL)hue:(CGFloat *)hue saturation:(CGFloat *)saturation brightness:(CGFloat *)brightness alpha:(CGFloat *)alpha;
 @end
+
+#endif

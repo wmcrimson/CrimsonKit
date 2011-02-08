@@ -16,13 +16,13 @@
 #define RadiansToDegrees(x) (x * 180.0f / (CGFloat)M_PI)
 #endif
 
-#ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
+#if __MAC_OS_X_VERSION_MIN_REQUIRED
 #define CKGraphicsGetCurrentContext() [[NSGraphicsContext currentContext] graphicsPort]
 #define NSStringFromCGPoint(p) [NSString stringWithFormat:@"{%f, %f}", p.x, p.y]
 extern CGPoint CGPointFromString(NSString *encodedString) __attribute__((nonnull(1)));
 #endif
 
-#ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
 #define CKGraphicsGetCurrentContext() UIGraphicsGetCurrentContext()
 #endif
 

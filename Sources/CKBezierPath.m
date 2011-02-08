@@ -217,7 +217,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
         [coder encodeFloat:mDashPhase forKey:CKBezierPathDashPhaseKey];
         
         NSMutableArray *values = [NSMutableArray arrayWithCapacity:(NSUInteger)mDashCount];
-        NSUInteger i = 0;
+        NSInteger i = 0;
         for(i = 0; i < mDashCount; i++)
         {
             [values addObject:[NSNumber numberWithFloat:mDashPattern[i]]];

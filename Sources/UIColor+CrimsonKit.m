@@ -6,6 +6,8 @@
 //  Copyright 2010 Crimson Research, Inc. All rights reserved.
 //
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
+
 #import "ColorConversion.h"
 #import "UIColor+CrimsonKit.h"
 
@@ -373,3 +375,5 @@
     return haveValues;
 }
 @end
+
+#endif
