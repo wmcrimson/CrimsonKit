@@ -23,7 +23,7 @@ NSString *const CKBezierPathPoint0Key = @"point0";
 NSString *const CKBezierPathPoint1Key = @"point1";
 NSString *const CKBezierPathPoint2Key = @"point2";
 
-#if defined(MAC_OS_X)
+#if __MAC_OS_X_VERSION_MIN_REQUIRED
 CGPoint CGPointFromString(NSString *encodedString)
 {
     CGPoint point = CGPointZero;
