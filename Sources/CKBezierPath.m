@@ -23,7 +23,7 @@ NSString *const CKBezierPathPoint0Key = @"point0";
 NSString *const CKBezierPathPoint1Key = @"point1";
 NSString *const CKBezierPathPoint2Key = @"point2";
 
-#if defined(MAC_OS_X)
+#if __MAC_OS_X_VERSION_MIN_REQUIRED
 CGPoint CGPointFromString(NSString *encodedString)
 {
     CGPoint point = CGPointZero;
@@ -36,7 +36,6 @@ CGPoint CGPointFromString(NSString *encodedString)
 
 @interface CKBezierPath (Private)
 - (void)_setDefaults CLANG_ANALYZER_NORETURN;
-- (void)_appendCGPath:(CGPathRef)cgPath CLANG_ANALYZER_NORETURN;
 @end
 
 typedef struct
@@ -98,7 +97,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 @dynamic bounds;
 @dynamic currentPoint;
 @dynamic empty;
-@synthesize CGPath;
+@dynamic CGPath;
 
 @synthesize flatness = _flatness;
 @synthesize lineWidth = _lineWidth;
@@ -294,7 +293,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 + (CKBezierPath *)bezierPathWithCGPath:(CGPathRef)cgPath
 {
     CKBezierPath *path = [[self class] new];
-    [path _appendCGPath:cgPath];
+    path.CGPath = cgPath;
     return [path autorelease];
 }
 
@@ -553,11 +552,5 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     _dashPattern = NULL;
     _dashCount = 0;
     _dashPhase = 0.0f;
-}
-
-- (void)_appendCGPath:(CGPathRef)cgPath
-{
-    assert(NULL != cgPath && "NULL path");
-    CGPathAddPath(_cgPath, &_transform, cgPath);
 }
 @end
