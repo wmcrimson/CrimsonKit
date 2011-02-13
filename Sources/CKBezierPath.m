@@ -98,14 +98,14 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 @dynamic bounds;
 @dynamic currentPoint;
 @dynamic empty;
-@dynamic CGPath;
+@synthesize CGPath;
 
-@synthesize flatness = mFlatness;
-@synthesize lineWidth = mLineWidth;
-@synthesize miterLimit = mMiterLimit;
-@synthesize lineCapStyle = mLineCapStyle;
-@synthesize lineJoinStyle = mLineJoinStyle;
-@synthesize usesEvenOddFillRule = mUsesEvenOddFillRule;
+@synthesize flatness = _flatness;
+@synthesize lineWidth = _lineWidth;
+@synthesize miterLimit = _miterLimit;
+@synthesize lineCapStyle = _lineCapStyle;
+@synthesize lineJoinStyle = _lineJoinStyle;
+@synthesize usesEvenOddFillRule = _usesEvenOddFillRule;
 
 #pragma mark -
 #pragma mark Object LifeCycle
@@ -114,7 +114,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 {
     if(nil != (self = [super init]))
     {
-        mCGPath = CGPathCreateMutable();
+        _cgPath = CGPathCreateMutable();
         [self _setDefaults];
     }
     
@@ -123,14 +123,14 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 
 - (void)dealloc
 {
-    if(NULL != mCGPath)
+    if(NULL != _cgPath)
     {
-        CGPathRelease(mCGPath), mCGPath = NULL;
+        CGPathRelease(_cgPath), _cgPath = NULL;
     }
     
-    if(NULL != mDashPattern)
+    if(NULL != _dashPattern)
     {
-        NSZoneFree(NULL, mDashPattern), mDashPattern = NULL;
+        NSZoneFree(NULL, _dashPattern), _dashPattern = NULL;
     }
     
     [super dealloc];
@@ -142,15 +142,15 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 {
     if(nil != (self = [super init]))
     {
-        mCGPath = CGPathCreateMutable();
+        _cgPath = CGPathCreateMutable();
         [self _setDefaults];
         NSArray *elements = [coder decodeObjectForKey:CKBezierPathKey];
-        mFlatness = [coder decodeFloatForKey:CKBezierPathFlatnessKey];
-        mLineWidth = [coder decodeFloatForKey:CKBezierPathLineWidthKey];
-        mMiterLimit = [coder decodeFloatForKey:CKBezierPathMiterLimitKey];
-        mLineCapStyle = (CGLineCap)[coder decodeIntForKey:CKBezierPathLineCapStyleKey];
-        mLineJoinStyle = (CGLineJoin)[coder decodeIntForKey:CKBezierPathLineJoinStyleKey];
-        mUsesEvenOddFillRule = [coder decodeBoolForKey:CKBezierPathEvenOddFillRuleKey];
+        _flatness = [coder decodeFloatForKey:CKBezierPathFlatnessKey];
+        _lineWidth = [coder decodeFloatForKey:CKBezierPathLineWidthKey];
+        _miterLimit = [coder decodeFloatForKey:CKBezierPathMiterLimitKey];
+        _lineCapStyle = (CGLineCap)[coder decodeIntForKey:CKBezierPathLineCapStyleKey];
+        _lineJoinStyle = (CGLineJoin)[coder decodeIntForKey:CKBezierPathLineJoinStyleKey];
+        _usesEvenOddFillRule = [coder decodeBoolForKey:CKBezierPathEvenOddFillRuleKey];
         
         for(NSDictionary *element in elements)
         {
@@ -179,7 +179,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
             }
         }
         
-        if(mDashCount > 0)
+        if(_dashCount > 0)
         {
             NSInteger count = [coder decodeIntForKey:CKBezierPathDashCountKey];
             CGFloat phase = [coder decodeFloatForKey:CKBezierPathDashPhaseKey];
@@ -201,26 +201,26 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     NSMutableArray *array = [[NSMutableArray array] retain];
-    CGPathApply(mCGPath, array, CKBezierPathEncoder);
+    CGPathApply(_cgPath, array, CKBezierPathEncoder);
     [coder encodeObject:array forKey:CKBezierPathKey];
-    [coder encodeFloat:mFlatness forKey:CKBezierPathFlatnessKey];
-    [coder encodeFloat:mLineWidth forKey:CKBezierPathLineWidthKey];
-    [coder encodeFloat:mMiterLimit forKey:CKBezierPathMiterLimitKey];
-    [coder encodeInt:mLineCapStyle forKey:CKBezierPathLineCapStyleKey];
-    [coder encodeInt:mLineJoinStyle forKey:CKBezierPathLineJoinStyleKey];
-    [coder encodeBool:mUsesEvenOddFillRule forKey:CKBezierPathEvenOddFillRuleKey];
+    [coder encodeFloat:_flatness forKey:CKBezierPathFlatnessKey];
+    [coder encodeFloat:_lineWidth forKey:CKBezierPathLineWidthKey];
+    [coder encodeFloat:_miterLimit forKey:CKBezierPathMiterLimitKey];
+    [coder encodeInt:_lineCapStyle forKey:CKBezierPathLineCapStyleKey];
+    [coder encodeInt:_lineJoinStyle forKey:CKBezierPathLineJoinStyleKey];
+    [coder encodeBool:_usesEvenOddFillRule forKey:CKBezierPathEvenOddFillRuleKey];
     [array release], array = nil;
     
-    if(mDashCount > 0)
+    if(_dashCount > 0)
     {
-        [coder encodeInt:mDashCount forKey:CKBezierPathDashCountKey];
-        [coder encodeFloat:mDashPhase forKey:CKBezierPathDashPhaseKey];
+        [coder encodeInt:_dashCount forKey:CKBezierPathDashCountKey];
+        [coder encodeFloat:_dashPhase forKey:CKBezierPathDashPhaseKey];
         
-        NSMutableArray *values = [NSMutableArray arrayWithCapacity:(NSUInteger)mDashCount];
+        NSMutableArray *values = [NSMutableArray arrayWithCapacity:(NSUInteger)_dashCount];
         NSInteger i = 0;
-        for(i = 0; i < mDashCount; i++)
+        for(i = 0; i < _dashCount; i++)
         {
-            [values addObject:[NSNumber numberWithFloat:mDashPattern[i]]];
+            [values addObject:[NSNumber numberWithFloat:_dashPattern[i]]];
         }
         [coder encodeObject:values forKey:CKBezierPathDashPatternKey];
     }
@@ -231,16 +231,16 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 - (id)copyWithZone:(NSZone *)zone
 {
     CKBezierPath *path = [[CKBezierPath allocWithZone:zone] init];
-    path.CGPath = mCGPath;
-    path.flatness = mFlatness;
-    path.lineCapStyle = mLineCapStyle;
-    path.lineJoinStyle = mLineJoinStyle;
-    path.lineWidth = mLineWidth;
-    path.miterLimit = mMiterLimit;
-    path.usesEvenOddFillRule = mUsesEvenOddFillRule;
-    if(mDashCount > 0)
+    path.CGPath = _cgPath;
+    path.flatness = _flatness;
+    path.lineCapStyle = _lineCapStyle;
+    path.lineJoinStyle = _lineJoinStyle;
+    path.lineWidth = _lineWidth;
+    path.miterLimit = _miterLimit;
+    path.usesEvenOddFillRule = _usesEvenOddFillRule;
+    if(_dashCount > 0)
     {
-        [path setLineDash:mDashPattern count:mDashCount phase:mDashPhase];
+        [path setLineDash:_dashPattern count:_dashCount phase:_dashPhase];
     }
     return path;
 }
@@ -302,39 +302,39 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 #pragma mark Properties
 - (CGRect)bounds
 {
-    return CGPathGetBoundingBox(mCGPath);
+    return CGPathGetBoundingBox(_cgPath);
 }
 
 - (CGPoint)currentPoint
 {
-    return CGPathGetCurrentPoint(mCGPath);
+    return CGPathGetCurrentPoint(_cgPath);
 }
 
 - (BOOL)isEmpty
 {
-    return CGPathIsEmpty(mCGPath);
+    return CGPathIsEmpty(_cgPath);
 }
 
 - (CGPathRef)CGPath
 {
-    return mCGPath;
+    return _cgPath;
 }
 
 - (void)setCGPath:(CGPathRef)path
 {
     assert(NULL != path && "Null Path");
-    CGPathRelease(mCGPath);
-    mCGPath = CGPathCreateMutableCopy(path);
+    CGPathRelease(_cgPath);
+    _cgPath = CGPathCreateMutableCopy(path);
 }
 
 - (void)appendBezierPathWithRect:(CGRect)rect
 {
-    CGPathAddRect(mCGPath, &mTransform, rect);
+    CGPathAddRect(_cgPath, &_transform, rect);
 }
 
 - (void)appendBezierPathWithOvalInRect:(CGRect)rect
 {
-    CGPathAddEllipseInRect(mCGPath, &mTransform, rect);
+    CGPathAddEllipseInRect(_cgPath, &_transform, rect);
 }
 
 - (void)appendBezierPathWithRoundedRect:(CGRect)rect byRoundingCorners:(CKRectCorner)corners cornerRadii:(CGSize)cornerRadii
@@ -358,7 +358,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
         // if either of the radius is no positive we just add a rect.
     if(0 >= cornerRadii.width || 0 >= cornerRadii.height)
     {
-        CGPathAddRect(mCGPath, &mTransform, rect);
+        CGPathAddRect(_cgPath, &_transform, rect);
         return;
     }
         
@@ -367,114 +367,114 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     CGFloat minX = CGRectGetMinX(rect), maxX = CGRectGetMaxX(rect), minY = CGRectGetMinY(rect), maxY = CGRectGetMaxY(rect);
     if(corners & CKRectCornerTopLeft)
     {
-        CGPathMoveToPoint(path, &mTransform, minX+cornerRadii.width, minY);
-        CGPathAddQuadCurveToPoint(path, &mTransform, minX, minY, minX, minY+cornerRadii.height);
+        CGPathMoveToPoint(path, &_transform, minX+cornerRadii.width, minY);
+        CGPathAddQuadCurveToPoint(path, &_transform, minX, minY, minX, minY+cornerRadii.height);
     } else {
-        CGPathMoveToPoint(path, &mTransform, minX, minY);
+        CGPathMoveToPoint(path, &_transform, minX, minY);
     }
     
     if(corners & CKRectCornerBottomLeft)
     {
-        CGPathAddLineToPoint(path, &mTransform, minX, maxY-cornerRadii.height);
-        CGPathAddQuadCurveToPoint(path, &mTransform, minX, maxY, minX+cornerRadii.width, maxY);
+        CGPathAddLineToPoint(path, &_transform, minX, maxY-cornerRadii.height);
+        CGPathAddQuadCurveToPoint(path, &_transform, minX, maxY, minX+cornerRadii.width, maxY);
     } else {
-        CGPathAddLineToPoint(path, &mTransform, minX, maxY);
+        CGPathAddLineToPoint(path, &_transform, minX, maxY);
     }
     
     if(corners & CKRectCornerBottomRight)
     {
-        CGPathAddLineToPoint(path, &mTransform, maxX-cornerRadii.width, maxY);
-        CGPathAddQuadCurveToPoint(path, &mTransform, maxX, maxY, maxX, maxY-cornerRadii.height);
+        CGPathAddLineToPoint(path, &_transform, maxX-cornerRadii.width, maxY);
+        CGPathAddQuadCurveToPoint(path, &_transform, maxX, maxY, maxX, maxY-cornerRadii.height);
     } else {
-        CGPathAddLineToPoint(path, &mTransform, maxX, maxY);
+        CGPathAddLineToPoint(path, &_transform, maxX, maxY);
     }
     
     if(corners & CKRectCornerTopRight)
     {
-        CGPathAddLineToPoint(path, &mTransform, maxX, minY+cornerRadii.height);
-        CGPathAddQuadCurveToPoint(path, &mTransform, maxX, minY, maxX-cornerRadii.width, minY);
+        CGPathAddLineToPoint(path, &_transform, maxX, minY+cornerRadii.height);
+        CGPathAddQuadCurveToPoint(path, &_transform, maxX, minY, maxX-cornerRadii.width, minY);
     } else {
-        CGPathAddLineToPoint(path, &mTransform, maxX, minY);
+        CGPathAddLineToPoint(path, &_transform, maxX, minY);
     }
     
     CGPathCloseSubpath(path);
     
-    CGPathAddPath(mCGPath, &mTransform, path);
+    CGPathAddPath(_cgPath, &_transform, path);
     CGPathRelease(path), path = NULL;
 }
 
     // Constructing a Path
 - (void)moveToPoint:(CGPoint)point
 {
-    CGPathMoveToPoint(mCGPath, &mTransform, point.x, point.y);
+    CGPathMoveToPoint(_cgPath, &_transform, point.x, point.y);
 }
 
 - (void)addLineToPoint:(CGPoint)point
 {
-    CGPathAddLineToPoint(mCGPath, &mTransform, point.x, point.y);
+    CGPathAddLineToPoint(_cgPath, &_transform, point.x, point.y);
 }
 
 - (void)addCurveToPoint:(CGPoint)endPoint controlPoint1:(CGPoint)controlPoint1 controlPoint2:(CGPoint)controlPoint2
 {
-    CGPathAddCurveToPoint(mCGPath, &mTransform, controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, endPoint.x, endPoint.y);
+    CGPathAddCurveToPoint(_cgPath, &_transform, controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, endPoint.x, endPoint.y);
 }
 
 - (void)addQuadCurveToPoint:(CGPoint)endPoint controlPoint:(CGPoint)controlPoint
 {
-    CGPathAddQuadCurveToPoint(mCGPath, &mTransform, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
+    CGPathAddQuadCurveToPoint(_cgPath, &_transform, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
 }
 
 - (void)addArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise
 {
-    CGPathAddArc(mCGPath, &mTransform, center.x, center.y, radius, startAngle, endAngle, clockwise);	
+    CGPathAddArc(_cgPath, &_transform, center.x, center.y, radius, startAngle, endAngle, clockwise);	
 }
 
 - (void)closePath
 {
-    CGPathCloseSubpath(mCGPath);
+    CGPathCloseSubpath(_cgPath);
 }
 
 - (void)removeAllPoints
 {
-    CGPathRelease(mCGPath);
-    mCGPath = CGPathCreateMutable();
+    CGPathRelease(_cgPath);
+    _cgPath = CGPathCreateMutable();
 }
 
 - (void)appendPath:(CKBezierPath *)bezierPath
 {
-    CGPathAddPath(mCGPath, &mTransform, bezierPath.CGPath);
+    CGPathAddPath(_cgPath, &_transform, bezierPath.CGPath);
 }
 
     // Accessing Drawing Properties
 - (void)setLineDash:(const CGFloat *)pattern count:(NSInteger)count phase:(CGFloat)phase
 {
-    if(NULL != mDashPattern)
+    if(NULL != _dashPattern)
     {
-        free(mDashPattern);
+        free(_dashPattern);
     }
     
-    mDashCount = count;
-    mDashPhase = phase;
-    mDashPattern = NSZoneMalloc(NULL, (size_t)mDashCount * sizeof(CGFloat));
-    memcpy(mDashPattern, pattern, sizeof(CGFloat) * (size_t)mDashCount);
+    _dashCount = count;
+    _dashPhase = phase;
+    _dashPattern = NSZoneMalloc(NULL, (size_t)_dashCount * sizeof(CGFloat));
+    memcpy(_dashPattern, pattern, sizeof(CGFloat) * (size_t)_dashCount);
     CGContextRef context = CKGraphicsGetCurrentContext();
-    CGContextSetLineDash(context, mDashPhase, mDashPattern, (size_t)mDashCount);
+    CGContextSetLineDash(context, _dashPhase, _dashPattern, (size_t)_dashCount);
 }
 
 - (void)getLineDash:(CGFloat *)pattern count:(NSInteger *)count phase:(CGFloat *)phase
 {
-    *count = mDashCount;
-    *phase = mDashPhase;
+    *count = _dashCount;
+    *phase = _dashPhase;
     
-    memcpy(pattern, mDashPattern, sizeof(CGFloat) * (size_t)mDashCount);
+    memcpy(pattern, _dashPattern, sizeof(CGFloat) * (size_t)_dashCount);
 }
 
     // Drawing Paths
 - (void)fill
 {
     CGContextRef context = CKGraphicsGetCurrentContext();
-    CGContextAddPath(context, mCGPath);
-    CGContextDrawPath(context, mUsesEvenOddFillRule ? kCGPathEOFill : kCGPathFill);
+    CGContextAddPath(context, _cgPath);
+    CGContextDrawPath(context, _usesEvenOddFillRule ? kCGPathEOFill : kCGPathFill);
 }
 
 - (void)fillWithBlendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha
@@ -482,8 +482,8 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     CGContextRef context = CKGraphicsGetCurrentContext();
     CGContextSetBlendMode(context, blendMode);
     CGContextSetAlpha(context, alpha);
-    CGContextAddPath(context, mCGPath);
-    CGContextDrawPath(context, mUsesEvenOddFillRule ? kCGPathEOFill : kCGPathFill);
+    CGContextAddPath(context, _cgPath);
+    CGContextDrawPath(context, _usesEvenOddFillRule ? kCGPathEOFill : kCGPathFill);
 }
 
 - (void)stroke
@@ -495,7 +495,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     CGContextSetFlatness(context, self.flatness);
     CGContextSetLineCap(context, self.lineCapStyle);
     CGContextSetLineJoin(context, self.lineJoinStyle);
-    CGContextAddPath(context, mCGPath);
+    CGContextAddPath(context, _cgPath);
     CGContextDrawPath(context, kCGPathStroke);
     CGContextRestoreGState(context);   
 }
@@ -511,7 +511,7 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
     CGContextSetLineJoin(context, self.lineJoinStyle);
     CGContextSetBlendMode(context, blendMode);
     CGContextSetAlpha(context, alpha);
-    CGContextAddPath(context, mCGPath);
+    CGContextAddPath(context, _cgPath);
     CGContextDrawPath(context, kCGPathStroke);
     CGContextRestoreGState(context);   
 }
@@ -520,21 +520,21 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 - (void)addClip
 {
     CGContextRef context = CKGraphicsGetCurrentContext();
-    CGContextAddPath(context, mCGPath);
-    mUsesEvenOddFillRule ? CGContextEOClip(context) : CGContextClip(context);
+    CGContextAddPath(context, _cgPath);
+    _usesEvenOddFillRule ? CGContextEOClip(context) : CGContextClip(context);
 }
 
     // Hit Detection
 - (BOOL)containsPoint:(CGPoint)point
 {
-    return CGPathContainsPoint(mCGPath, &mTransform, point, mUsesEvenOddFillRule);
+    return CGPathContainsPoint(_cgPath, &_transform, point, _usesEvenOddFillRule);
 }
 
     // Applying Tranformations
 - (void)applyTransform:(CGAffineTransform)transform
 {
 	CKBezierTransform rec = {CGPathCreateMutable(), transform};
-	CGPathApply(mCGPath, &rec, CKBezierPathTransformer);
+	CGPathApply(_cgPath, &rec, CKBezierPathTransformer);
     self.CGPath = rec.path;
     CGPathRelease(rec.path);
 }
@@ -543,21 +543,21 @@ static void CKBezierPathEncoder(void *infoRecord, const CGPathElement *element)
 @implementation CKBezierPath (Private)
 - (void)_setDefaults
 {
-    mFlatness = 0.6f;
-    mLineWidth = 1.0f;
-    mMiterLimit = 10.0f;
-    mLineCapStyle = kCGLineCapButt;
-    mLineJoinStyle = kCGLineJoinMiter;
-    mUsesEvenOddFillRule = NO;
-    mTransform = CGAffineTransformIdentity;
-    mDashPattern = NULL;
-    mDashCount = 0;
-    mDashPhase = 0.0f;
+    _flatness = 0.6f;
+    _lineWidth = 1.0f;
+    _miterLimit = 10.0f;
+    _lineCapStyle = kCGLineCapButt;
+    _lineJoinStyle = kCGLineJoinMiter;
+    _usesEvenOddFillRule = NO;
+    _transform = CGAffineTransformIdentity;
+    _dashPattern = NULL;
+    _dashCount = 0;
+    _dashPhase = 0.0f;
 }
 
 - (void)_appendCGPath:(CGPathRef)cgPath
 {
     assert(NULL != cgPath && "NULL path");
-    CGPathAddPath(mCGPath, &mTransform, cgPath);
+    CGPathAddPath(_cgPath, &_transform, cgPath);
 }
 @end

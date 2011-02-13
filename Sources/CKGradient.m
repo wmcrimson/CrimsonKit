@@ -10,7 +10,8 @@
 #import "CKBezierPath.h"
 
 @interface CKGradient ()
-@property (nonatomic, readwrite, assign) CGColorSpaceRef colorSpace;
+@property (readwrite, assign) CGColorSpaceRef colorSpace;
+@property (assign) CFMutableArrayRef cgColors;
 @end
 
 @interface CKGradient (Private)
@@ -18,9 +19,10 @@
 @end
 
 @implementation CKGradient
-@synthesize colorSpace = mColorSpace;
-@synthesize numberOfColorStops = mNumberOfColorStops;
-@synthesize CGGradient=mCGGradient;
+@synthesize colorSpace = _colorSpace;
+@synthesize numberOfColorStops = _numberOfColorStops;
+@synthesize CGGradient = _cgGradient;
+@synthesize cgColors = _cgColors;
 
 #pragma mark -
 #pragma mark Initialization
@@ -105,41 +107,41 @@
 
 - (CGColorSpaceRef)colorSpace
 {
-	if(NULL == mColorSpace)
+	if(NULL == _colorSpace)
 	{
-		mColorSpace = CGColorSpaceCreateDeviceRGB();
+		_colorSpace = CGColorSpaceCreateDeviceRGB();
 	}
 	
-	return mColorSpace;
+	return _colorSpace;
 }
 
 - (void)setColorSpace:(CGColorSpaceRef)newColorSpace;
 {
-	if(NULL != mColorSpace)
+	if(NULL != _colorSpace)
 	{
-		CGColorSpaceRelease(mColorSpace);
+		CGColorSpaceRelease(_colorSpace);
 	}
 	
-	mColorSpace = (NULL == newColorSpace) ? NULL : CGColorSpaceRetain(newColorSpace);
+	_colorSpace = (NULL == newColorSpace) ? NULL : CGColorSpaceRetain(newColorSpace);
 }
 
 - (void)dealloc
 {
-    if(NULL != mCGColors)
+    if(NULL != _cgColors)
     {
-        CFRelease(mCGColors), mCGColors = NULL;
+        CFRelease(_cgColors), _cgColors = NULL;
     }
     
-	if(NULL != mCGGradient)
+	if(NULL != _cgGradient)
 	{
-		CGGradientRelease(mCGGradient);
+		CGGradientRelease(_cgGradient);
 	}
 	
 	self.colorSpace = NULL;
 
-	if(NULL != mLocations)
+	if(NULL != _colorLocations)
 	{
-		free(mLocations);
+		free(_colorLocations);
 	}
 	
 	[super dealloc];
@@ -150,13 +152,13 @@
 - (void)drawFromPoint:(CGPoint)startingPoint toPoint:(CGPoint)endingPoint options:(CGGradientDrawingOptions)options
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
-	CGContextDrawLinearGradient(context, mCGGradient, startingPoint, endingPoint, options);
+	CGContextDrawLinearGradient(context, _cgGradient, startingPoint, endingPoint, options);
 }
 
 - (void)drawFromCenter:(CGPoint)startCenter radius:(CGFloat)startRadius toCenter:(CGPoint)endCenter radius:(CGFloat)endRadius options:(CGGradientDrawingOptions)options
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
-	CGContextDrawRadialGradient(context, mCGGradient, startCenter, startRadius, endCenter, endRadius, options);
+	CGContextDrawRadialGradient(context, _cgGradient, startCenter, startRadius, endCenter, endRadius, options);
 }
 
 #pragma mark -
@@ -221,7 +223,7 @@
 	CGContextSaveGState(context);
 	CGContextAddPath(context, path.CGPath);
 	CGContextClip(context);
-	CGContextDrawLinearGradient(context, mCGGradient, startPoint, endPoint, 0);
+	CGContextDrawLinearGradient(context, _cgGradient, startPoint, endPoint, 0);
 	CGContextRestoreGState(context);
 }
 
@@ -255,7 +257,7 @@
 	CGContextSaveGState(context);
 	CGContextAddPath(context, path.CGPath);
 	CGContextClip(context);
-	CGContextDrawRadialGradient(context, mCGGradient, startCenter, 0.0f, startCenter, endRadius, 0);
+	CGContextDrawRadialGradient(context, _cgGradient, startCenter, 0.0f, startCenter, endRadius, 0);
 	CGContextRestoreGState(context);
 }
 
@@ -263,10 +265,10 @@
 {
     *color = nil;
     *location = FP_NAN;
-    if((NSUInteger)colorIndex < mNumberOfColorStops)
+    if((NSUInteger)colorIndex < _numberOfColorStops)
     {
-        *location = mLocations[colorIndex];
-        CGColorRef cgColor = (CGColorRef)CFArrayGetValueAtIndex(mCGColors, (CFIndex)colorIndex);
+        *location = _colorLocations[colorIndex];
+        CGColorRef cgColor = (CGColorRef)CFArrayGetValueAtIndex(_cgColors, (CFIndex)colorIndex);
         if(NULL != cgColor)
         {
             *color = [UIColor colorWithCGColor:cgColor];
@@ -277,13 +279,13 @@
 - (UIColor *)interpolatedColorAtLocation:(CGFloat)location
 {
 	UIColor *color = nil;
-	if(mLocations[0] <= location && location <= mLocations[mNumberOfColorStops - 1])
+	if(_colorLocations[0] <= location && location <= _colorLocations[_numberOfColorStops - 1])
 	{
 		NSUInteger i = 0;
-		for(i = 0; mLocations[i] <= location; i++);
+		for(i = 0; _colorLocations[i] <= location; i++);
 		
-		const CGFloat *start = CGColorGetComponents((CGColorRef)CFArrayGetValueAtIndex(mCGColors, (CFIndex)(i-1)));
-		const CGFloat *end = CGColorGetComponents((CGColorRef)CFArrayGetValueAtIndex(mCGColors, (CFIndex)i));
+		const CGFloat *start = CGColorGetComponents((CGColorRef)CFArrayGetValueAtIndex(_cgColors, (CFIndex)(i-1)));
+		const CGFloat *end = CGColorGetComponents((CGColorRef)CFArrayGetValueAtIndex(_cgColors, (CFIndex)i));
 		CGFloat components[4];
 		
 		for(i = 0; i < 4; i++)
@@ -301,22 +303,22 @@
 @implementation CKGradient (Private)
 - (BOOL)createWithColors:(NSArray *)colorArray atLocations:(const CGFloat *)locations colorSpace:(CGColorSpaceRef)colorSpace
 {
-	mNumberOfColorStops = [colorArray count];	
-	mCGColors = CFArrayCreateMutable(kCFAllocatorDefault, (CFIndex)mNumberOfColorStops,  &kCFTypeArrayCallBacks);
+	_numberOfColorStops = [colorArray count];	
+	_cgColors = CFArrayCreateMutable(kCFAllocatorDefault, (CFIndex)_numberOfColorStops,  &kCFTypeArrayCallBacks);
 	
-	for(NSUInteger i = 0; i < mNumberOfColorStops; i++)
+	for(NSUInteger i = 0; i < _numberOfColorStops; i++)
 	{
-		CFArrayInsertValueAtIndex(mCGColors, (CFIndex)i, ((UIColor *)[colorArray objectAtIndex:i]).CGColor);
+		CFArrayInsertValueAtIndex(_cgColors, (CFIndex)i, ((UIColor *)[colorArray objectAtIndex:i]).CGColor);
 	}
 	
-	size_t count = sizeof(CGFloat) * mNumberOfColorStops;
+	size_t count = sizeof(CGFloat) * _numberOfColorStops;
 	
-	mLocations = malloc(count);
-	memcpy(mLocations, locations, count);
+	_colorLocations = malloc(count);
+	memcpy(_colorLocations, locations, count);
 	
 	self.colorSpace = colorSpace;
-	mCGGradient = CGGradientCreateWithColors(self.colorSpace, mCGColors, mLocations);
+	_cgGradient = CGGradientCreateWithColors(self.colorSpace, _cgColors, _colorLocations);
 	
-	return (NULL != mCGGradient);
+	return (NULL != _cgGradient);
 }
 @end

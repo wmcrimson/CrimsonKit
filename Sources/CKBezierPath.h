@@ -37,17 +37,11 @@ typedef enum {
 @interface CKBezierPath : NSObject <NSCoding, NSCopying>
 {
 @private
-    CGMutablePathRef mCGPath;
-    CGFloat mFlatness;
-    CGFloat mLineWidth;
-    CGFloat mMiterLimit;
-    CGLineCap mLineCapStyle;
-    CGLineJoin mLineJoinStyle;
-    BOOL mUsesEvenOddFillRule;
-    CGAffineTransform mTransform;
-    CGFloat *mDashPattern;
-    NSInteger mDashCount;
-    CGFloat mDashPhase;
+    CGMutablePathRef _cgPath;
+    CGAffineTransform _transform;
+    CGFloat *_dashPattern;
+    NSInteger _dashCount;
+    CGFloat _dashPhase;
 }
 
 @property(nonatomic, readonly, assign) CGRect bounds;
@@ -55,12 +49,12 @@ typedef enum {
 @property(readonly, getter=isEmpty, assign) BOOL empty;
 @property(nonatomic, assign) CGPathRef CGPath;
 
-@property(nonatomic, assign) CGFloat flatness; // (0.6)
-@property(nonatomic, assign) CGLineCap lineCapStyle; // (kCGLineCapButt)
-@property(nonatomic, assign) CGLineJoin lineJoinStyle; // (kCGLineJoinMiter)
-@property(nonatomic, assign) CGFloat lineWidth; // (1.0)
-@property(nonatomic, assign) CGFloat miterLimit; // (10)
-@property(nonatomic, assign) BOOL usesEvenOddFillRule; //(NO)
+@property(assign) CGFloat flatness; // (0.6)
+@property(assign) CGLineCap lineCapStyle; // (kCGLineCapButt)
+@property(assign) CGLineJoin lineJoinStyle; // (kCGLineJoinMiter)
+@property(assign) CGFloat lineWidth; // (1.0)
+@property(assign) CGFloat miterLimit; // (10)
+@property(assign) BOOL usesEvenOddFillRule; //(NO)
 
     // Creating a CKBezierPath Object
 + (CKBezierPath *)bezierPath NS_RETURNS_NOT_RETAINED;

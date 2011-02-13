@@ -62,7 +62,7 @@
 
 - (void)appendCGPath:(CGPathRef)cgPath
 {
-    CGPathAddPath(mCGPath, &mTransform, cgPath);
+    CGPathAddPath(_cgPath, &_transform, cgPath);
 }
 
 - (void)appendBezierPath:(CKBezierPath *)path
@@ -72,7 +72,7 @@
 
 - (void)appendBezierPathWithArcFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint radius:(CGFloat)radius
 {
-    CGPathAddArcToPoint(mCGPath, &mTransform, fromPoint.x, fromPoint.y, toPoint.x, toPoint.y, radius);
+    CGPathAddArcToPoint(_cgPath, &_transform, fromPoint.x, fromPoint.y, toPoint.x, toPoint.y, radius);
 }
 
 - (void)appendBezierPathWithArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle
@@ -82,7 +82,7 @@
 
 - (void)appendBezierPathWithPoints:(CGPoint *)points count:(NSInteger)count
 {
-    CGPathAddLines(mCGPath, &mTransform, points, (size_t)count);
+    CGPathAddLines(_cgPath, &_transform, points, (size_t)count);
 }
 
 - (void)appendBezierPathWithRoundedRect:(CGRect)rect xRadius:(CGFloat)xRadius yRadius:(CGFloat)yRadius

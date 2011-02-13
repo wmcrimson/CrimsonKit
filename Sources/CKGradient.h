@@ -17,16 +17,12 @@
 @interface CKGradient : NSObject
 {
 @protected
-    CFMutableArrayRef   mCGColors;
-	CGGradientRef		mCGGradient;
-	CGColorSpaceRef		mColorSpace;
-	NSUInteger			mNumberOfColorStops;
-	CGFloat				*mLocations;
+	CGFloat				*_colorLocations;
 }
 
-@property (nonatomic, readonly, assign) CGColorSpaceRef colorSpace;
-@property (nonatomic, readonly, assign) NSUInteger numberOfColorStops;
-@property (nonatomic, readonly, assign) CGGradientRef CGGradient;
+@property (readonly, assign) CGColorSpaceRef colorSpace;
+@property (readonly, assign) NSUInteger numberOfColorStops;
+@property (readonly, assign) CGGradientRef CGGradient;
 
 // Initialization
 
