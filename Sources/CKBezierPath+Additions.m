@@ -13,7 +13,7 @@
 + (CKBezierPath *)bezierPathWithRoundedRect:(CGRect)rect xRadius:(CGFloat)xRadius yRadius:(CGFloat)yRadius
 {
     CGSize cornerRadii = CGSizeMake(xRadius, yRadius);
-    return [[self class] bezierPathWithRoundedRect:rect byRoundingCorners:CKRectCornerAllCorners cornerRadii:cornerRadii];
+    return [CKBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:CKRectCornerAllCorners cornerRadii:cornerRadii];
 }
 
 - (void)lineToPoint:(CGPoint)point
