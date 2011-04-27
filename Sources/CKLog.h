@@ -13,11 +13,11 @@ extern "C" {
 #endif
     
 #ifdef DEBUG
-    void _CKLog(uint32_t line, const char *function, NSString *format, ...) __attribute__((nonnull(2,3)));
+    void _CKLogDebug(const char *file, const char *function, uint32_t line, NSString *format, ...) __attribute__((nonnull(1,2,4)));
 #endif
     
 #ifdef DEBUG
-#define CKLog(x, ...)  _CKLog(__LINE__, __FUNCTION__, x, ##__VA_ARGS__);
+#define CKLog(x, ...)  _CKLogDebug(__FILE__, __FUNCTION__, __LINE__, x, ##__VA_ARGS__);
 #else
 #define CKLog(x, ...)
 #endif
