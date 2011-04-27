@@ -1,29 +1,33 @@
-//
-//  TestCKGradientView.m
-//  TestCKGradient
-//
-//  Created by Waqar Malik on 3/19/10.
-//  Copyright 2010 Crimson Research, Inc. All rights reserved.
-//
+#CrimsonKit
 
-#import "TestGradientView.h"
-#import "CKGradient.h"
-#import "CKBezierPath.h"
-#import "UIColor+CrimsonKit.h"
+CrimsonKit is licensed under the terms of the Attribution License.  Copyright &copy; 2010-2011, Waqar Malik.
 
-@implementation TestGradientView
-- (void)drawRect:(CGRect)rect
-{
-    [super drawRect:rect];
+<code>
+    CKBezierPath *path = [CKBezierPath bezierPathWithRoundedRect:CGRectInset(rect, 20.0f, 20.0f) cornerRadius:20.0f];
+    [path appendPath:[CKBezierPath bezierPathWithOvalInRect:CGRectInset(rect, 30.0f, 30.0f)]];
+    [path appendBezierPathWithRect:CGRectInset(rect, 60.0f, 40.0f)];
+    path.lineWidth = 3.0f;
+    path.usesEvenOddFillRule = NO;
+    [[UIColor yellowColor] setFill];
+    [[UIColor blueColor] setStroke];
+    [path fill];
+    [path stroke];
+</code>
+
+<center>
+<img src="CKPath.png" />
+</center>
+
+<code>
     CKGradient *gradient = [[CKGradient alloc] initWithStartingColor:[UIColor colorWithRGBAHex:0x0000ffff] endingColor:[UIColor yellowColor]];
     [gradient drawInRect:rect angle:45.0f];
     [gradient release];
-    
+
     CKBezierPath *path = [CKBezierPath bezierPathWithRoundedRect:CGRectInset(rect, 10, 20) cornerRadius:30];
     gradient = [[CKGradient alloc] initWithStartingColor:[UIColor colorWithRGBAHex:0x00ff00ff] endingColor:[UIColor redColor]];
     [gradient drawInBezierPath:path angle:0];
     [gradient release];
- 
+
     path = [CKBezierPath bezierPathWithOvalInRect:CGRectInset(rect, 30, 80)];
     gradient = [[CKGradient alloc] initWithStartingColor:[UIColor cyanColor] endingColor:[UIColor magentaColor]];
     [gradient drawInBezierPath:path angle:180];
@@ -36,5 +40,8 @@
     gradient = [[CKGradient alloc] initWithStartingColor:[UIColor orangeColor] endingColor:[UIColor purpleColor]];
     [gradient drawFromPoint:CGPointMake(CGRectGetMinX(myRect), CGRectGetMinY(myRect)) toPoint:CGPointMake(CGRectGetMinX(myRect), CGRectGetMaxY(myRect)) options:0];
     [gradient release];
-}
-@end
+</code>
+
+<center>
+<img src="CKGradient.png" />
+</center>
