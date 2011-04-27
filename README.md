@@ -2,7 +2,6 @@
 
 CrimsonKit is licensed under the terms of the Attribution License.  Copyright &copy; 2010-2011, Waqar Malik.
 
-<code>
     CKBezierPath *path = [CKBezierPath bezierPathWithRoundedRect:CGRectInset(rect, 20.0f, 20.0f) cornerRadius:20.0f];
     [path appendPath:[CKBezierPath bezierPathWithOvalInRect:CGRectInset(rect, 30.0f, 30.0f)]];
     [path appendBezierPathWithRect:CGRectInset(rect, 60.0f, 40.0f)];
@@ -12,13 +11,11 @@ CrimsonKit is licensed under the terms of the Attribution License.  Copyright &c
     [[UIColor blueColor] setStroke];
     [path fill];
     [path stroke];
-</code>
 
 <center>
-<img src="CKPath.png" />
+<img src="https://github.com/wmalloc/CrimsonKit/raw/master/CKPath.png" />
 </center>
 
-<code>
     CKGradient *gradient = [[CKGradient alloc] initWithStartingColor:[UIColor colorWithRGBAHex:0x0000ffff] endingColor:[UIColor yellowColor]];
     [gradient drawInRect:rect angle:45.0f];
     [gradient release];
@@ -40,8 +37,7 @@ CrimsonKit is licensed under the terms of the Attribution License.  Copyright &c
     gradient = [[CKGradient alloc] initWithStartingColor:[UIColor orangeColor] endingColor:[UIColor purpleColor]];
     [gradient drawFromPoint:CGPointMake(CGRectGetMinX(myRect), CGRectGetMinY(myRect)) toPoint:CGPointMake(CGRectGetMinX(myRect), CGRectGetMaxY(myRect)) options:0];
     [gradient release];
-</code>
 
 <center>
-<img src="CKGradient.png" />
+<img src="https://github.com/wmalloc/CrimsonKit/raw/master/CKGradient.png" />
 </center>
