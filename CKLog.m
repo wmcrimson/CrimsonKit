@@ -9,18 +9,18 @@ void _CKLogDebug(const char *file, const char *function, uint32_t line, NSString
 {
     va_list args;
     va_start(args, format);
-    NSString *logMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    __strong NSString *logMessage = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     
-    static NSDateFormatter *gCKDebugFormatter = nil;
-    if(nil == gCKDebugFormatter)
+    static NSDateFormatter *sCKDebugFormatter = nil;
+    if(nil == sCKDebugFormatter)
     {
-        gCKDebugFormatter = [[NSDateFormatter alloc] init];
-        [gCKDebugFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        sCKDebugFormatter = [[NSDateFormatter alloc] init];
+        [sCKDebugFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     }
     
-    NSString *timeStamp = [gCKDebugFormatter stringFromDate:[NSDate date]];
-    NSString *filePath = [[NSString alloc] initWithUTF8String:file];    
+    NSString *timeStamp = [sCKDebugFormatter stringFromDate:[NSDate date]];
+    NSString *filePath = [NSString stringWithCString:file encoding:NSUTF8StringEncoding];
 
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
     fprintf(stdout, "%s %s %s %s:%d %s\n",
@@ -30,7 +30,5 @@ void _CKLogDebug(const char *file, const char *function, uint32_t line, NSString
             function,
             line,
             [logMessage UTF8String]);
-    [logMessage release], logMessage = nil;
-    [filePath release], filePath = nil;
 }
 #endif
