@@ -6,6 +6,10 @@
 //  Copyright 2010 Crimson Research, Inc. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#  error Please compile this class with ARC (-fobjc-arc).
+#endif
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
 
 #import "ColorConversion.h"

@@ -4,6 +4,10 @@
 
 #import "CKLog.h"
 
+#if !__has_feature(objc_arc)
+#  error Please compile this class with ARC (-fobjc-arc).
+#endif
+
 #ifdef DEBUG
 void _CKLogDebug(const char *file, const char *function, uint32_t line, NSString *format, ...)
 {
