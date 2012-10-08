@@ -24,12 +24,12 @@ void _CKLogDebug(const char *file, const char *function, uint32_t line, NSString
     }
     
     NSString *timeStamp = [sCKDebugFormatter stringFromDate:[NSDate date]];
-    NSString *filePath = [NSString stringWithCString:file encoding:NSUTF8StringEncoding];
+    NSString *filePath = @(file);
 
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
     fprintf(stdout, "%s %s %s %s:%d %s\n",
             [timeStamp UTF8String],
-            [[infoDict objectForKey:(NSString *)kCFBundleNameKey] UTF8String],
+            [infoDict[(NSString *)kCFBundleNameKey] UTF8String],
             [[filePath lastPathComponent] UTF8String],
             function,
             line,
